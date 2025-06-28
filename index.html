@@ -1,584 +1,245 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MailBee সাপোর্ট - সম্পূর্ণ গাইড</title>
-  <meta name="description" content="MailBee দিয়ে অনলাইন ইনকামের সম্পূর্ণ গাইড - ফেইসবুক, জিমেইল এবং কাজ সাবমিট সম্পর্কে বিস্তারিত">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💥Xalora20💥</title>
+  <meta name="description" content="Watch ads, earn points, and withdraw via mobile payment.">
+  <meta name="keywords" content="earn money, watch ads, withdraw, bkash, nagad, monetage">
+  <meta name="author" content="Md Srabon Ahmed">
+  <meta property="og:title" content="Monetage Mini App">
+  <meta property="og:description" content="Watch ads, earn points, and withdraw via mobile payment!">
+  <meta property="og:type" content="website">
   <style>
-    :root {
-      --primary: #f0047f;
-      --secondary: #7f00ff;
-      --accent: #0099ff;
-      --whatsapp: #25D366;
-      --white: #ffffff;
-      --light-bg: rgba(255, 255, 255, 0.15);
-      --dark-bg: rgba(0, 0, 0, 0.2);
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
     body {
       margin: 0;
-      font-family: 'Hind Siliguri', sans-serif;
-      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-      color: var(--white);
-      text-align: center;
-      overflow-x: hidden;
-      min-height: 100vh;
-      line-height: 1.6;
-    }
-    
-    .hidden { 
-      display: none; 
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    
-    .visible {
-      display: block;
-      opacity: 1;
-    }
-    
-    .intro-container {
-      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+      background-size: 200% 200%;
+      animation: gradient 5s ease infinite;
+      color: #fff;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      height: 100vh;
     }
-    
-    .animated-text {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-      animation: fadeInScale 1.5s ease-in-out forwards;
+    @keyframes gradient {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
     }
-    
-    .sub-text {
-      font-size: 1.2rem;
-      max-width: 500px;
-      animation: fadeIn 2s ease-in-out 1s forwards;
-      opacity: 0;
-    }
-    
-    @keyframes fadeInScale {
-      0% { 
-        opacity: 0; 
-        transform: scale(0.9) translateY(20px);
-      }
-      100% { 
-        opacity: 1; 
-        transform: scale(1) translateY(0);
-      }
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    .btn {
-      margin: 10px;
-      padding: 12px 25px;
-      border: 2px solid var(--white);
-      background: transparent;
-      color: var(--white);
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      min-width: 200px;
-    }
-    
-    .btn:hover {
-      background: var(--light-bg);
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .btn:active {
-      transform: translateY(1px);
-    }
-    
-    .btn-whatsapp {
-      background: var(--whatsapp);
-      border-color: var(--whatsapp);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-    
-    .btn-whatsapp:hover {
-      background: #128C7E;
-      border-color: #128C7E;
-    }
-    
-    .btn-back {
-      margin-top: 30px;
-      background: var(--dark-bg);
-    }
-    
-    .btn-rate {
-      background: #FF9800;
-      border-color: #FF9800;
-      margin-top: 20px;
-    }
-    
-    .btn-rate:hover {
-      background: #F57C00;
-      border-color: #F57C00;
-    }
-    
-    .btn-payment {
-      background: #4CAF50;
-      border-color: #4CAF50;
-      margin-top: 20px;
-    }
-    
-    .btn-payment:hover {
-      background: #388E3C;
-      border-color: #388E3C;
-    }
-    
-    iframe {
-      width: 100%;
-      max-width: 560px;
-      height: 315px;
-      border: none;
-      border-radius: 12px;
-      margin: 20px auto;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    }
-    
-    section {
-      padding: 30px 20px;
-      display: none;
-      animation: fadeIn 0.5s ease;
-    }
-    
-    .active { 
-      display: block; 
-    }
-    
-    .video-container {
-      position: relative;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-    
-    .video-toggle {
-      margin: 15px 0;
-    }
-    
-    .article {
-      text-align: left;
-      max-width: 700px;
-      margin: 30px auto;
-      background: var(--light-bg);
+    .app {
+      background: rgba(0, 0, 0, 0.75);
       padding: 25px;
       border-radius: 15px;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    
-    .article h3 {
-      margin-bottom: 15px;
-      color: var(--white);
-      font-size: 1.5rem;
+      width: 90%;
+      max-width: 370px;
       text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
-    
-    .article p {
-      margin: 15px 0;
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
     }
-    
-    .article ul {
-      margin: 15px 0;
-      padding-left: 20px;
-    }
-    
-    .article li {
-      margin-bottom: 8px;
-    }
-    
-    .highlight {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 2px 5px;
-      border-radius: 4px;
-      font-weight: 600;
-    }
-    
-    .logo {
-      font-size: 2.8rem;
-      margin-bottom: 20px;
+    .developer {
+      font-size: 12px;
+      background-color: #00ffae;
+      padding: 6px 12px;
+      border-radius: 50px;
       display: inline-block;
-      background: linear-gradient(to right, var(--primary), var(--accent));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .main-container {
-      padding: 30px 20px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .main-container h2 {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-    
-    .main-container p {
-      margin-bottom: 30px;
-      font-size: 1.1rem;
-    }
-    
-    .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    
-    .copy-btn {
-      background: var(--dark-bg);
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
+      margin-bottom: 15px;
       cursor: pointer;
-      margin-left: 5px;
-      transition: all 0.2s;
+      transition: 0.3s;
     }
-    
-    .copy-btn:hover {
-      background: rgba(0, 0, 0, 0.3);
+    .developer:hover {
+      background-color: #00c08b;
     }
-    
-    .copy-notification {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      z-index: 100;
-      display: none;
+    .stats {
+      margin: 15px 0;
+      font-size: 14px;
     }
-    
-    .rate-container {
-      margin: 30px auto;
-      max-width: 600px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 12px;
+    .progress-circle {
+      width: 80px;
+      height: 80px;
+      border: 4px solid #00ffae;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 18px;
     }
-    
-    .payment-container {
-      margin: 30px auto;
-      max-width: 600px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 12px;
-    }
-    
-    .payment-instructions {
-      text-align: left;
-      margin-top: 15px;
-      padding: 15px;
-      background: rgba(0, 0, 0, 0.2);
+    .btn {
+      width: 100%;
+      padding: 12px;
+      margin: 6px 0;
+      border: none;
       border-radius: 8px;
+      background: #00ffae;
+      font-size: 15px;
+      font-weight: 600;
+      color: #000;
+      box-shadow: 0 5px 0 #00c08b;
+      transition: all 0.2s ease, transform 0.1s ease;
+      transform: perspective(1px) translateZ(0);
     }
-    
-    @media (max-width: 600px) {
-      .animated-text {
-        font-size: 2rem;
-      }
-      
-      .sub-text {
-        font-size: 1rem;
-      }
-      
-      .btn {
-        padding: 10px 20px;
-        min-width: 160px;
-      }
-      
-      iframe {
-        height: 200px;
-      }
+    .btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 3px 0 #00c08b;
+    }
+    .withdraw-form {
+      margin-top: 20px;
+      display: none;
+      text-align: left;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      margin-top: 10px;
+      background: #222;
+      color: #fff;
+      font-size: 14px;
+    }
+    #withdraw-status {
+      margin-top: 10px;
+      font-size: 13px;
+      color: yellow;
     }
   </style>
 </head>
 <body>
+  <div class="app">
+    <h1>💥Xalora20💥</h1>
+    <div class="developer" onclick="window.location.href='https://t.me/Sayedbro7'">
+      Developer: MD Abu Sayed
+    </div>
 
-  <div class="intro-container">
-    <div class="logo">MailBee</div>
-    <div id="intro" class="animated-text">আপনার অনলাইন ইনকামের সহযোগী</div>
-    <div id="notice" class="sub-text">কাজ করার জন্য সম্পূর্ণ ভিডিও গাইড</div>
+    <div class="stats">
+      <p>Welcome: <span id="user-name">@Sayedbro7</span></p>
+      <p>Watched Ads: <span id="watched-ads">0</span></p>
+      <p>Points: <span id="earned-points">0.00</span></p>
+    </div>
+
+    <div class="progress-circle"><span id="ads-progress">0%</span></div>
+
+    <button class="btn" onclick="watchAd()">🎬 Watch Ad</button>
+    <button class="btn" onclick="startAutoAds()">▶️ Auto Ads</button>
+    <button class="btn" onclick="stopAutoAds()">⏹️ Stop Auto</button>
+    <button class="btn" onclick="showPopupAd()">🎁 Popup Reward</button>
+    <button class="btn" onclick="showWithdraw()">💸 Withdraw</button>
+
+    <div class="withdraw-form" id="withdraw-form">
+      <input type="number" id="withdraw-amount" placeholder="Enter points (min 1000)">
+      <select id="payment-method">
+        <option value="bkash">Bkash</option>
+        <option value="nagad">Nagad</option>
+      </select>
+      <input type="text" id="withdraw-phone" placeholder="Phone number">
+      <button class="btn" onclick="withdrawPoints()">✅ Submit</button>
+      <p id="withdraw-status"></p>
+    </div>
   </div>
 
-  <main id="mainUI" class="hidden main-container">
-    <h2>MailBee – সহজে অনলাইন ইনকাম</h2>
-    <p>নিচ থেকে আপনার প্রয়োজনীয় গাইড সিলেক্ট করুন
-হার না মেনে কাজ করুন না জানলে আমি শিখাবো শুধু বলবেন কোন জায়গায় বুজেন নাই 💗🥰আর কেউ যদি বলে ১০০ টাকা rate তাহলে ব্লক দিবেন 🙏স্ক্যাম এর শিকার হলে দায়ী নয় 💝আর যেকোনো help এর জন্য দেরি হলে রাগ করবেন না 😔আপনাদের সবাইকে help করতে হয় তাই একটু লেট হয়ে থাকে তাই অগ্রিম সরি 😹😘
-</p>
-    
-    <div class="btn-group">
-      <button onclick="showPage('facebook')" class="btn">ফেইসবুক গাইড</button>
-      <button onclick="showPage('gmail')" class="btn">জিমেইল গাইড</button>
-      <button onclick="showPage('submit')" class="btn">কাজ সাবমিট গাইড</button>
-    </div>
-    
-    <div class="rate-container">
-      <h3>আজকের রেট চেক করুন</h3>
-      <p>ফেইসবুক/জিমেইল এর বর্তমান রেট জানতে WhatsApp এ যোগাযোগ করুন</p>
-      <button onclick="checkTodayRate()" class="btn btn-rate">আজকের রেট জানুন</button>
-    </div>
-    
-    <div class="payment-container">
-      <h3>💝 পেমেন্ট / টাকা উইড্রো 💝</h3>
-      <p>টাকা উত্তোলনের জন্য WhatsApp এ যোগাযোগ করুন</p>
-      <button onclick="requestWithdrawal()" class="btn btn-payment">উইড্রো রিকোয়েস্ট</button>
-      
-      <div class="payment-instructions">
-        <p><strong>ইনস্ট্রাকশন:</strong></p>
-        <p>"জিমেইল /ফেইসবুক দেয়ার পর লিস্ট হবে 🙏</p>
-        <p>আপনি যেই জিমেইল/ফেইসবুক দিসেন ঐটা কয় ঘণ্টা হলো? মিনিমাম ৭ঘণ্টা লাগবে লিস্ট কমপ্লিট হলে হোয়াটস্যাপ এ জানানো হবে যদি অলরেডি জানানো হইসে তাহলে</p>
-        <p>💝নগদ/বিকাশ 💝</p>
-        <p>নাম্বার:- </p>
-        <p>মিনিমাম ২০টাকা নিতে পারবেন 🥰💗</p>
-      </div>
-    </div>
-  </main>
-
-  <!-- Facebook Page -->
-  <section id="facebook" class="hidden">
-    <h3>ফেইসবুক মার্কেটিং সম্পূর্ণ গাইড</h3>
-    
-    <div class="video-container">
-      <iframe id="fbVideo" src="https://www.youtube.com/embed/2aUikBQEKsE" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    
-    <div class="video-toggle">
-      <button onclick="toggleVideo('fbVideo')" class="btn">ভিডিও চালু/বন্ধ করুন</button>
-    </div>
-    
-    <div class="article">
-      <h3>ফেইসবুক মার্কেটিং সম্পর্কে গুরুত্বপূর্ণ তথ্য</h3>
-      <p>📍 <span class="highlight">MailBee</span> প্লাটফর্মে আপনি জিমেইল/ফেইসবুক মার্কেটিং করে ইনকাম করতে পারবেন।</p>
-      <p>ফেইসবুক আইডি ব্যবহার করে আপনি আমাদের প্লাটফর্মে আনলিমিটেড বিক্রি করতে পারবেন।</p>
-      <p>জিমেইল ৫-৮০ টাকা পর্যন্ত বিক্রি করা সম্ভব।</p>
-      
-      <h4>ফেইসবুক আইডি তৈরির জন্য প্রয়োজনীয় তথ্য:</h4>
-      <ul>
-        <li>
-          <strong>UID:</strong> 100095312522605
-          <button onclick="copyToClipboard('100095312522605')" class="copy-btn">কপি</button>
-        </li>
-        <li>
-          <strong>Password:</strong> @name 24
-          <button onclick="copyToClipboard('@name 24')" class="copy-btn">কপি</button>
-        </li>
-        <li>
-          <strong>Fake Gmail:</strong> hosah89552@vaniweb.com
-          <button onclick="copyToClipboard('hosah89552@vaniweb.com')" class="copy-btn">কপি</button>
-        </li>
-        <li>
-          <strong>2FA Code:</strong> JXOO HGMV EFRT 4PEY
-          <button onclick="copyToClipboard('JXOO HGMV EFRT 4PEY')" class="copy-btn">কপি</button>
-        </li>
-      </ul>
-      
-      <p><strong>2FA অ্যাপ্লিকেশন:</strong> ভিডিওতে দেখানো 2FA অ্যাপ্লিকেশনটি ব্যবহার করে কোড জেনারেট করুন।</p>
-      
-      <a href="https://wa.me/8801938975564" class="btn btn-whatsapp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-2.28-1.17c.173.099.347.198.52.297.173.099.347.074.446-.025.099-.099.074-.223.025-.347-.05-.124-.223-.273-.446-.545-.223-.273-.347-.347-.52-.397-.174-.049-.298-.024-.397.075-.1.099-.074.273-.025.397.05.124.223.644.397.944M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.768 0-3.46-.51-4.933-1.477L2 22l1.477-5.067A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.704.59 3.273 1.582 4.515L4 20l3.485-1.582A8 8 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z" fill="#fff"/>
-        </svg>
-        2FA অ্যাপ ডাউনলোড করুন
-      </a>
-      
-      <h4>অনুমোদিত টেম্পমেইল সাইট লিস্ট:</h4>
-      <p>নিচের সাইট ছাড়া অন্য কোনো টেম্পমেইল ব্যবহার করলে গ্রহণযোগ্য হবে না:</p>
-      <ul>
-        <li><a href="http://Mail.tm" target="_blank" style="color: #fff; text-decoration: underline;">Mail.tm</a></li>
-        <li><a href="http://Emailfake.com" target="_blank" style="color: #fff; text-decoration: underline;">Emailfake.com</a></li>
-        <li><a href="http://Tempm.com" target="_blank" style="color: #fff; text-decoration: underline;">Tempm.com</a></li>
-        <li><a href="http://mailclonefb.top" target="_blank" style="color: #fff; text-decoration: underline;">mailclonefb.top</a></li>
-      </ul>
-    </div>
-    
-    <button onclick="showPage('mainUI')" class="btn btn-back">🔙 মেনুতে ফিরে যান</button>
-  </section>
-
-  <!-- Gmail Page -->
-  <section id="gmail" class="hidden">
-    <h3>জিমেইল তৈরির সম্পূর্ণ গাইড</h3>
-    
-    <div class="video-container">
-      <iframe id="gmailVideo" src="https://www.youtube.com/embed/GI6VcOP1CPs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    
-    <div class="video-toggle">
-      <button onclick="toggleVideo('gmailVideo')" class="btn">ভিডিও চালু/বন্ধ করুন</button>
-    </div>
-    
-    <div class="article">
-      <h3>জিমেইল সাবমিট করার নিয়ম</h3>
-      <p>ভিডিও দেখে জিমেইল তৈরি করুন এবং নিচের বাটনে ক্লিক করে সাবমিট করুন।</p>
-      <p>সাবমিট করার সময় নিচের ফরম্যাট অনুসরণ করুন:</p>
-      
-      <ul>
-        <li>জিমেইল: example@gmail.com</li>
-        <li>জিমেইল পাসওয়ার্ড: YourPassword123</li>
-      </ul>
-      
-      <p>সাবমিট করার আগে নিশ্চিত করুন যে জিমেইলটি সঠিকভাবে কাজ করছে।</p>
-    </div>
-    
-    <a href="https://wa.me/8801938975564" class="btn btn-whatsapp">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-2.28-1.17c.173.099.347.198.52.297.173.099.347.074.446-.025.099-.099.074-.223.025-.347-.05-.124-.223-.273-.446-.545-.223-.273-.347-.347-.52-.397-.174-.049-.298-.024-.397.075-.1.099-.074.273-.025.397.05.124.223.644.397.944M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.768 0-3.46-.51-4.933-1.477L2 22l1.477-5.067A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.704.59 3.273 1.582 4.515L4 20l3.485-1.582A8 8 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z" fill="#fff"/>
-      </svg>
-      জিমেইল সাবমিট করুন
-    </a>
-    
-    <button onclick="showPage('mainUI')" class="btn btn-back">🔙 মেনুতে ফিরে যান</button>
-  </section>
-
-  <!-- Submit Page -->
-  <section id="submit" class="hidden">
-    <h3>কাজ সাবমিট করার গাইড</h3>
-    
-    <div class="video-container">
-      <iframe id="submitVideo" src="https://www.youtube.com/embed/w5ztkhhLC54" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    
-    <div class="video-toggle">
-      <button onclick="toggleVideo('submitVideo')" class="btn">ভিডিও চালু/বন্ধ করুন</button>
-    </div>
-    
-    <div class="article">
-      <h3>কাজ সাবমিট করার নিয়ম</h3>
-      <p>ভিডিওতে দেখানো নিয়ম অনুসরণ করে আপনার কাজ সাবমিট করুন।</p>
-      <p>সাবমিট করার সময় নিচের বিষয়গুলো নিশ্চিত করুন:</p>
-      
-      <ul>
-        <li>সম্পূর্ণ ভিডিও দেখে কাজ করেছেন</li>
-        <li>সঠিক তথ্য প্রদান করেছেন</li>
-        <li>জিমেইল/ফেইসবুক আইডি সঠিকভাবে কাজ করছে</li>
-      </ul>
-      
-      <p>কোনো সমস্যা হলে সরাসরি WhatsApp এ যোগাযোগ করুন।</p>
-    </div>
-    
-    <a href="https://wa.me/8801938975564" class="btn btn-whatsapp">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-2.28-1.17c.173.099.347.198.52.297.173.099.347.074.446-.025.099-.099.074-.223.025-.347-.05-.124-.223-.273-.446-.545-.223-.273-.347-.347-.52-.397-.174-.049-.298-.024-.397.075-.1.099-.074.273-.025.397.05.124.223.644.397.944M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10c-1.768 0-3.46-.51-4.933-1.477L2 22l1.477-5.067A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8c0 1.704.59 3.273 1.582 4.515L4 20l3.485-1.582A8 8 0 0 0 12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8z" fill="#fff"/>
-      </svg>
-      কাজ সাবমিট করুন
-    </a>
-    
-    <button onclick="showPage('mainUI')" class="btn btn-back">🔙 মেনুতে ফিরে যান</button>
-  </section>
-
-  <div id="copyNotification" class="copy-notification">কপি করা হয়েছে!</div>
+  <!-- Adsterra SDK -->
+  <script src="//jagnaimsee.net/vignette.min.js" data-zone="9502273" data-sdk="show_9502273"></script>
 
   <script>
-    // Improved intro animation
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(() => {
-        document.getElementById('intro').classList.add('hidden');
-        document.getElementById('notice').classList.add('visible');
-      }, 2000);
-      
-      setTimeout(() => {
-        document.getElementById('notice').classList.add('hidden');
-        document.getElementById('mainUI').classList.add('visible');
-        document.querySelector('.intro-container').style.display = 'none';
-      }, 5000);
-    });
+    const MIN_WITHDRAW = 1000;
+    const BOT_TOKEN = "7673150127:AAE2NAn1uZHkWB7vhATY3zULK1IcAL48NF8";
+    const ADMIN_USERNAME = "@Sayedbro7";
+    const TELEGRAM_CHAT_ID = 7243906826
 
-    // Page navigation
-    function showPage(id) {
-      document.querySelectorAll('section').forEach(el => {
-        el.classList.remove('active');
-        el.classList.add('hidden');
-      });
-      
-      document.getElementById(id).classList.remove('hidden');
-      document.getElementById(id).classList.add('active');
-      document.getElementById('mainUI').classList.add('hidden');
-      
-      // Scroll to top when changing pages
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    let watchedAds = parseInt(localStorage.getItem("watchedAds")) || 0;
+    let earnedPoints = parseFloat(localStorage.getItem("earnedPoints")) || 0;
+    let autoAdInterval;
 
-    // Video toggle function
-    function toggleVideo(id) {
-      const iframe = document.getElementById(id);
-      if (iframe.src.includes('autoplay=1')) {
-        iframe.src = iframe.src.replace('autoplay=1', 'autoplay=0');
-      } else {
-        // Pause video by reloading without autoplay
-        const src = iframe.src;
-        iframe.src = src.includes('?') ? 
-          src.split('?')[0] + '?autoplay=1' : 
-          src + '?autoplay=1';
+    document.getElementById("watched-ads").textContent = watchedAds;
+    document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
+    updateProgress();
+
+    function watchAd() {
+      if (typeof show_9502273 === 'function') {
+        show_9502273().then(() => {
+          addPoints(0.50);
+        });
       }
     }
 
-    // Copy to clipboard function
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        const notification = document.getElementById('copyNotification');
-        notification.style.display = 'block';
-        setTimeout(() => {
-          notification.style.display = 'none';
-        }, 2000);
+    function startAutoAds() {
+      autoAdInterval = setInterval(() => {
+        show_9502273().then(() => {
+          addPoints(0.50);
+        });
+      }, 10000);
+    }
+
+    function stopAutoAds() {
+      clearInterval(autoAdInterval);
+    }
+
+    function showPopupAd() {
+      show_9502273('pop').then(() => {
+        addPoints(.05);
+        alert("🎉 Thanks! You got 0.05 point.");
+      }).catch(() => {
+        alert("⚠️ Ad failed to load.");
       });
     }
 
-    // Check today's rate function
-    function checkTodayRate() {
-      const message = encodeURIComponent("আজকে র ফেইসবুক/জিমেইল rate কত করে? আর পাসওয়ার্ড কি?");
-      window.open(`https://wa.me/8801938975564?text=${message}`, '_blank');
-    }
-    
-    // Request withdrawal function
-    function requestWithdrawal() {
-      const message = encodeURIComponent("আমি টাকা উত্তোলন করতে চাই। আমার জিমেইল/ফেইসবুক দেয়ার পর কত ঘণ্টা হলো? আমার বিকাশ/নগদ নাম্বার:");
-      window.open(`https://wa.me/8801938975564?text=${message}`, '_blank');
+    function addPoints(pts) {
+      watchedAds++;
+      earnedPoints += pts;
+      localStorage.setItem("watchedAds", watchedAds);
+      localStorage.setItem("earnedPoints", earnedPoints.toFixed(2));
+      document.getElementById("watched-ads").textContent = watchedAds;
+      document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
+      updateProgress();
     }
 
-    // Back to main menu from any section
-    function backToMain() {
-      document.querySelectorAll('section').forEach(el => {
-        el.classList.remove('active');
-        el.classList.add('hidden');
-      });
-      document.getElementById('mainUI').classList.remove('hidden');
-      document.getElementById('mainUI').classList.add('visible');
+    function updateProgress() {
+      let progress = Math.min(100, (watchedAds / 10) * 100);
+      document.getElementById("ads-progress").textContent = `${progress.toFixed(0)}%`;
+    }
+
+    function showWithdraw() {
+      document.getElementById("withdraw-form").style.display = "block";
+    }
+
+    function withdrawPoints() {
+      const amount = parseFloat(document.getElementById("withdraw-amount").value);
+      const method = document.getElementById("payment-method").value;
+      const phone = document.getElementById("withdraw-phone").value;
+
+      if (amount < MIN_WITHDRAW) {
+        return updateStatus(`❌ অন্তত ${MIN_WITHDRAW} পয়েন্ট দরকার (৳50 তুলতে)`);
+      }
+      if (amount > earnedPoints) {
+        return updateStatus(`❌ পর্যাপ্ত পয়েন্ট নেই (বর্তমানে ${earnedPoints.toFixed(2)} পয়েন্ট)`);
+      }
+
+      earnedPoints -= amount;
+      localStorage.setItem("earnedPoints", earnedPoints.toFixed(2));
+      document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
+
+      const takaAmount = ((amount / 1000) * 50).toFixed(2);
+      const message = `🔔 নতুন উইড্রো অনুরোধ\n\n👤 ইউজার: ${ADMIN_USERNAME}\n💰 পয়েন্ট: ${amount} (~৳${takaAmount})\n📱 পেমেন্ট: ${method}\n📞 ফোন: ${phone}`;
+      sendTelegram(message);
+
+      updateStatus("✅ উইড্রো অনুরোধ পাঠানো হয়েছে!");
+      document.getElementById("withdraw-amount").value = "";
+      document.getElementById("withdraw-phone").value = "";
+    }
+
+    function updateStatus(msg) {
+      document.getElementById("withdraw-status").textContent = msg;
+    }
+
+    function sendTelegram(msg) {
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}`);
     }
   </script>
-</body>
-</html>
+</body><script type='text/javascript' src='//pl26661413.profitableratecpm.com/e4/4d/88/e44d88716ac9780596f81b695e0b81d5.js'></script>
+  </html>
