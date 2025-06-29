@@ -108,6 +108,12 @@
       font-size: 13px;
       color: yellow;
     }
+    .username-section {
+      margin: 10px 0;
+    }
+    #username-input-section {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -118,7 +124,13 @@
     </div>
 
     <div class="stats">
-      <p>Welcome: <span id="user-name">@Sayedbro7</span></p>
+      <div class="username-section">
+        👤 ইউজার: <span id="username">@Guest</span><br/>
+        <div id="username-input-section">
+          <input type="text" id="username-input" placeholder="Enter username" style="margin-top: 10px;">
+          <button class="btn" onclick="saveUsername()">Save Username</button>
+        </div>
+      </div>
       <p>Watched Ads: <span id="watched-ads">0</span></p>
       <p>Points: <span id="earned-points">0.00</span></p>
     </div>
@@ -150,15 +162,36 @@
     const MIN_WITHDRAW = 1000;
     const BOT_TOKEN = "7673150127:AAE2NAn1uZHkWB7vhATY3zULK1IcAL48NF8";
     const ADMIN_USERNAME = "@Sayedbro7";
-    const TELEGRAM_CHAT_ID = 7243906826
+    const TELEGRAM_CHAT_ID = 7243906826;
 
     let watchedAds = parseInt(localStorage.getItem("watchedAds")) || 0;
     let earnedPoints = parseFloat(localStorage.getItem("earnedPoints")) || 0;
+    let username = localStorage.getItem("username") || "@Guest";
     let autoAdInterval;
 
+    // Initialize UI with stored values
     document.getElementById("watched-ads").textContent = watchedAds;
     document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
+    document.getElementById("username").textContent = username;
+
+    // Hide username input section if username is already saved
+    if (username !== "@Guest") {
+      document.getElementById("username-input-section").style.display = "none";
+    }
     updateProgress();
+
+    function saveUsername() {
+      const usernameInput = document.getElementById("username-input").value.trim();
+      if (usernameInput) {
+        username = `@${usernameInput.replace(/^@/, '')}`; // Ensure username starts with @
+        localStorage.setItem("username", username);
+        document.getElementById("username").textContent = username;
+        document.getElementById("username-input-section").style.display = "none"; // Hide input section
+        updateStatus("✅ Username saved!");
+      } else {
+        updateStatus("❌ Please enter a valid username.");
+      }
+    }
 
     function watchAd() {
       if (typeof show_9502273 === 'function') {
@@ -182,7 +215,7 @@
 
     function showPopupAd() {
       show_9502273('pop').then(() => {
-        addPoints(.05);
+        addPoints(0.05);
         alert("🎉 Thanks! You got 0.05 point.");
       }).catch(() => {
         alert("⚠️ Ad failed to load.");
@@ -225,7 +258,7 @@
       document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
 
       const takaAmount = ((amount / 1000) * 50).toFixed(2);
-      const message = `🔔 নতুন উইড্রো অনুরোধ\n\n👤 ইউজার: ${ADMIN_USERNAME}\n💰 পয়েন্ট: ${amount} (~৳${takaAmount})\n📱 পেমেন্ট: ${method}\n📞 ফোন: ${phone}`;
+      const message = `🔔 নতুন উইড্রো অনুরোধ\n\n👤 ইউজার: ${username}\n💰 পয়েন্ট: ${amount} (~৳${takaAmount})\n📱 পেমেন্ট: ${method}\n📞 ফোন: ${phone}`;
       sendTelegram(message);
 
       updateStatus("✅ উইড্রো অনুরোধ পাঠানো হয়েছে!");
@@ -241,5 +274,6 @@
       fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}`);
     }
   </script>
-</body><script type='text/javascript' src='//pl26661413.profitableratecpm.com/e4/4d/88/e44d88716ac9780596f81b695e0b81d5.js'></script>
+</body>
+<script type='text/javascript' src='//pl26661413.profitableratecpm.com/e4/4d/88/e44d88716ac9780596f81b695e0b81d5.js'></script>
   </html>
