@@ -1,279 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>💥Xalora20💥</title>
-  <meta name="description" content="Watch ads, earn points, and withdraw via mobile payment.">
-  <meta name="keywords" content="earn money, watch ads, withdraw, bkash, nagad, monetage">
-  <meta name="author" content="Md Srabon Ahmed">
-  <meta property="og:title" content="Monetage Mini App">
-  <meta property="og:description" content="Watch ads, earn points, and withdraw via mobile payment!">
-  <meta property="og:type" content="website">
+  <meta charset="UTF-8">
+  <title>Gmail Submit Flow</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-      background-size: 200% 200%;
-      animation: gradient 5s ease infinite;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      line-height: 1.6;
     }
-    @keyframes gradient {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-    .app {
-      background: rgba(0, 0, 0, 0.75);
+    .page {
+      display: none;
+      background: #fff;
       padding: 25px;
-      border-radius: 15px;
-      width: 90%;
-      max-width: 370px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .page.active {
+      display: block;
+    }
+    h2 {
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 22px;
     }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .developer {
-      font-size: 12px;
-      background-color: #00ffae;
-      padding: 6px 12px;
-      border-radius: 50px;
-      display: inline-block;
-      margin-bottom: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .developer:hover {
-      background-color: #00c08b;
-    }
-    .stats {
+    ul {
+      padding-left: 25px;
       margin: 15px 0;
-      font-size: 14px;
     }
-    .progress-circle {
-      width: 80px;
-      height: 80px;
-      border: 4px solid #00ffae;
-      border-radius: 50%;
-      margin: 0 auto 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 18px;
+    li {
+      margin-bottom: 8px;
     }
-    .btn {
+    .btn, button {
+      background-color: #25D366;
+      color: white;
+      padding: 12px 20px;
+      text-align: center;
+      display: block;
       width: 100%;
-      padding: 12px;
-      margin: 6px 0;
       border: none;
       border-radius: 8px;
-      background: #00ffae;
-      font-size: 15px;
-      font-weight: 600;
-      color: #000;
-      box-shadow: 0 5px 0 #00c08b;
-      transition: all 0.2s ease, transform 0.1s ease;
-      transform: perspective(1px) translateZ(0);
+      font-size: 16px;
+      margin-top: 25px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
     }
-    .btn:active {
-      transform: scale(0.96);
-      box-shadow: 0 3px 0 #00c08b;
-    }
-    .withdraw-form {
-      margin-top: 20px;
-      display: none;
-      text-align: left;
+    button:hover {
+      background-color: #128C7E;
     }
     input, select {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
       border-radius: 6px;
-      border: none;
+      box-sizing: border-box;
+      font-size: 15px;
+    }
+    label {
       margin-top: 10px;
-      background: #222;
-      color: #fff;
-      font-size: 14px;
-    }
-    #withdraw-status {
-      margin-top: 10px;
-      font-size: 13px;
-      color: yellow;
-    }
-    .username-section {
-      margin: 10px 0;
-    }
-    #username-input-section {
       display: block;
+      font-weight: 500;
+      color: #444;
+    }
+    .notice {
+      background-color: #FFF3CD;
+      padding: 12px;
+      border-radius: 6px;
+      margin: 15px 0;
+      border-left: 4px solid #FFC107;
+    }
+    .warning {
+      color: #D32F2F;
+      font-weight: 500;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <h1>💥Xalora20💥</h1>
-    <div class="developer" onclick="window.location.href='https://t.me/Sayedbro7'">
-      Developer: MD Abu Sayed
+
+  <!-- Step 1: Agreement Page -->
+  <div class="page active" id="page1">
+    <h2>📌 সাবমিশনের আগে নোট করুন</h2>
+    <p><strong>১) আপনি কি রিয়েল সেলার?</strong></p>
+    
+    <div class="notice">
+      <p>✅ জিমেইল দেওয়ার শর্তাবলী:</p>
+      <ul>
+        <li>ব্যবহৃত (Used) মেইল দেওয়া যাবে না</li>
+        <li>পাসওয়ার্ড পরিবর্তন করা যাবে না</li>
+        <li>জিমেইল অন্য কোথাও বিক্রি করা যাবে না</li>
+        <li>প্রতিটি জিমেইল ইউনিক হতে হবে</li>
+      </ul>
     </div>
-
-    <div class="stats">
-      <div class="username-section">
-        👤 ইউজার: <span id="username">@Guest</span><br/>
-        <div id="username-input-section">
-          <input type="text" id="username-input" placeholder="Enter username" style="margin-top: 10px;">
-          <button class="btn" onclick="saveUsername()">Save Username</button>
-        </div>
-      </div>
-      <p>Watched Ads: <span id="watched-ads">0</span></p>
-      <p>Points: <span id="earned-points">0.00</span></p>
-    </div>
-
-    <div class="progress-circle"><span id="ads-progress">0%</span></div>
-
-    <button class="btn" onclick="watchAd()">🎬 Watch Ad</button>
-    <button class="btn" onclick="startAutoAds()">▶️ Auto Ads</button>
-    <button class="btn" onclick="stopAutoAds()">⏹️ Stop Auto</button>
-    <button class="btn" onclick="showPopupAd()">🎁 Popup Reward</button>
-    <button class="btn" onclick="showWithdraw()">💸 Withdraw</button>
-
-    <div class="withdraw-form" id="withdraw-form">
-      <input type="number" id="withdraw-amount" placeholder="Enter points (min 1000)">
-      <select id="payment-method">
-        <option value="bkash">Bkash</option>
-        <option value="nagad">Nagad</option>
-      </select>
-      <input type="text" id="withdraw-phone" placeholder="Phone number">
-      <button class="btn" onclick="withdrawPoints()">✅ Submit</button>
-      <p id="withdraw-status"></p>
-    </div>
+    
+    <button onclick="goToPage(2)">✅ আমি সম্মত, পরবর্তী ধাপ</button>
   </div>
 
-  <!-- Adsterra SDK -->
-  <script src="//jagnaimsee.net/vignette.min.js" data-zone="9502273" data-sdk="show_9502273"></script>
+  <!-- Step 2: Rate & Submit Options -->
+  <div class="page" id="page2">
+    <h2>📢 আজকের আপডেট নোটিশ</h2>
+    
+    <div class="notice">
+      <p>⏳ রিপোর্ট টাইম: <strong>৩ ঘণ্টা</strong></p>
+      <p>⏱️ সর্বশেষ সাবমিশন: <strong>রাত ১১টা</strong></p>
+      <p>💰 জিমেইল রেট: <strong>৳১০ প্রতি পিস</strong></p>
+    </div>
+    
+    <p class="warning">❗ গুরুত্বপূর্ণ: জিমেইলের সাথে কোনো টেক্সট বা নোট সংযুক্ত করবেন না</p>
+    <p>সাবমিশনের পর ৩ ঘণ্টার মধ্যে রিপোর্ট পেয়ে যাবেন</p>
+
+    <button onclick="goToPage(3)">📩 জিমেইল সাবমিট করতে ক্লিক করুন</button>
+    <button onclick="goToPage(1)" style="background-color: #f1f1f1; color: #333; margin-top: 10px;">⬅️ পূর্ববর্তী পেজ</button>
+  </div>
+
+  <!-- Step 3: Final Submit Form -->
+  <div class="page" id="page3">
+    <h2>📤 জিমেইল সাবমিশন ফর্ম</h2>
+    <form onsubmit="return submitToWhatsApp()">
+      <label>জিমেইলের পরিমাণ (ন্যূনতম ২০ পিস):</label>
+      <input type="number" id="pcs" required min="20" placeholder="কতগুলো জিমেইল সাবমিট করবেন?">
+      
+      <label>পেমেন্ট মাধ্যম নির্বাচন করুন:</label>
+      <select id="payment" required>
+        <option value="" disabled selected>পেমেন্ট মাধ্যম পছন্দ করুন</option>
+        <option value="Nagad">Nagad</option>
+        <option value="Bkash">Bkash</option>
+        <option value="Rocket">Rocket</option>
+        <option value="Bank">বাংলাদেশের যেকোনো ব্যাংক</option>
+      </select>
+
+      <label>আপনার মোবাইল নাম্বার:</label>
+      <input type="tel" id="number" required placeholder="01XXXXXXXXX">
+
+      <button type="submit">✅ সাবমিট করুন</button>
+      <button type="button" onclick="goToPage(2)" style="background-color: #f1f1f1; color: #333; margin-top: 10px;">⬅️ পূর্ববর্তী পেজ</button>
+    </form>
+  </div>
 
   <script>
-    const MIN_WITHDRAW = 1000;
-    const BOT_TOKEN = "7673150127:AAE2NAn1uZHkWB7vhATY3zULK1IcAL48NF8";
-    const ADMIN_USERNAME = "@Sayedbro7";
-    const TELEGRAM_CHAT_ID = 7243906826;
-
-    let watchedAds = parseInt(localStorage.getItem("watchedAds")) || 0;
-    let earnedPoints = parseFloat(localStorage.getItem("earnedPoints")) || 0;
-    let username = localStorage.getItem("username") || "@Guest";
-    let autoAdInterval;
-
-    // Initialize UI with stored values
-    document.getElementById("watched-ads").textContent = watchedAds;
-    document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
-    document.getElementById("username").textContent = username;
-
-    // Hide username input section if username is already saved
-    if (username !== "@Guest") {
-      document.getElementById("username-input-section").style.display = "none";
-    }
-    updateProgress();
-
-    function saveUsername() {
-      const usernameInput = document.getElementById("username-input").value.trim();
-      if (usernameInput) {
-        username = `@${usernameInput.replace(/^@/, '')}`; // Ensure username starts with @
-        localStorage.setItem("username", username);
-        document.getElementById("username").textContent = username;
-        document.getElementById("username-input-section").style.display = "none"; // Hide input section
-        updateStatus("✅ Username saved!");
-      } else {
-        updateStatus("❌ Please enter a valid username.");
-      }
-    }
-
-    function watchAd() {
-      if (typeof show_9502273 === 'function') {
-        show_9502273().then(() => {
-          addPoints(0.50);
-        });
-      }
-    }
-
-    function startAutoAds() {
-      autoAdInterval = setInterval(() => {
-        show_9502273().then(() => {
-          addPoints(0.50);
-        });
-      }, 10000);
-    }
-
-    function stopAutoAds() {
-      clearInterval(autoAdInterval);
-    }
-
-    function showPopupAd() {
-      show_9502273('pop').then(() => {
-        addPoints(0.05);
-        alert("🎉 Thanks! You got 0.05 point.");
-      }).catch(() => {
-        alert("⚠️ Ad failed to load.");
+    function goToPage(pageNumber) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach((page, index) => {
+        page.classList.remove('active');
+        if (index === pageNumber - 1) {
+          page.classList.add('active');
+          window.scrollTo(0, 0);
+        }
       });
     }
 
-    function addPoints(pts) {
-      watchedAds++;
-      earnedPoints += pts;
-      localStorage.setItem("watchedAds", watchedAds);
-      localStorage.setItem("earnedPoints", earnedPoints.toFixed(2));
-      document.getElementById("watched-ads").textContent = watchedAds;
-      document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
-      updateProgress();
-    }
+    function submitToWhatsApp() {
+      const pcs = document.getElementById("pcs").value;
+      const payment = document.getElementById("payment").value;
+      const number = document.getElementById("number").value;
 
-    function updateProgress() {
-      let progress = Math.min(100, (watchedAds / 10) * 100);
-      document.getElementById("ads-progress").textContent = `${progress.toFixed(0)}%`;
-    }
-
-    function showWithdraw() {
-      document.getElementById("withdraw-form").style.display = "block";
-    }
-
-    function withdrawPoints() {
-      const amount = parseFloat(document.getElementById("withdraw-amount").value);
-      const method = document.getElementById("payment-method").value;
-      const phone = document.getElementById("withdraw-phone").value;
-
-      if (amount < MIN_WITHDRAW) {
-        return updateStatus(`❌ অন্তত ${MIN_WITHDRAW} পয়েন্ট দরকার (৳50 তুলতে)`);
-      }
-      if (amount > earnedPoints) {
-        return updateStatus(`❌ পর্যাপ্ত পয়েন্ট নেই (বর্তমানে ${earnedPoints.toFixed(2)} পয়েন্ট)`);
+      if(!pcs || !payment || !number) {
+        alert("দয়া করে সব তথ্য সঠিকভাবে পূরণ করুন");
+        return false;
       }
 
-      earnedPoints -= amount;
-      localStorage.setItem("earnedPoints", earnedPoints.toFixed(2));
-      document.getElementById("earned-points").textContent = earnedPoints.toFixed(2);
-
-      const takaAmount = ((amount / 1000) * 50).toFixed(2);
-      const message = `🔔 নতুন উইড্রো অনুরোধ\n\n👤 ইউজার: ${username}\n💰 পয়েন্ট: ${amount} (~৳${takaAmount})\n📱 পেমেন্ট: ${method}\n📞 ফোন: ${phone}`;
-      sendTelegram(message);
-
-      updateStatus("✅ উইড্রো অনুরোধ পাঠানো হয়েছে!");
-      document.getElementById("withdraw-amount").value = "";
-      document.getElementById("withdraw-phone").value = "";
-    }
-
-    function updateStatus(msg) {
-      document.getElementById("withdraw-status").textContent = msg;
-    }
-
-    function sendTelegram(msg) {
-      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(msg)}`);
+      const message = `🔔 নতুন জিমেইল সাবমিশন\n\n📦 পিস: ${pcs}\n💳 পেমেন্ট মাধ্যম: ${payment}\n📱 নাম্বার: ${number}\n\nদয়া করে উপরের তথ্য যাচাই করুন।`;
+      const phone = "8801938975564";
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      
+      // Open in new tab and reset form
+      window.open(url, "_blank");
+      document.querySelector("form").reset();
+      
+      return false;
     }
   </script>
+
 </body>
-<script type='text/javascript' src='//pl26661413.profitableratecpm.com/e4/4d/88/e44d88716ac9780596f81b695e0b81d5.js'></script>
   </html>
