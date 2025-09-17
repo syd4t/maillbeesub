@@ -1,851 +1,173 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ভাই মিনহাজ স্টোর</title>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
-        }
-
-        :root {
-            --primary-blue: #1a4b8c;
-            --secondary-blue: #2d6bc9;
-            --light-blue: #e8f0fe;
-            --accent: #48cae4;
-            --dark-bg: #16213e;
-            --light-bg: #f0f8ff;
-            --text-dark: #1a237e;
-            --text-light: #f0f0f0;
-            --card-bg: #ffffff;
-            --card-shadow: 0 8px 20px rgba(26, 75, 140, 0.2);
-        }
-
-        body {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(26, 75, 140, 0.3);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .logo i {
-            margin-right: 10px;
-            color: var(--accent);
-        }
-
-        .search-bar {
-            flex-grow: 1;
-            max-width: 500px;
-            margin: 0 20px;
-            position: relative;
-        }
-
-        .search-bar input {
-            width: 100%;
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .search-suggestions {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            padding: 10px;
-            display: none;
-            z-index: 1000;
-        }
-
-        .search-bar:focus-within .search-suggestions {
-            display: block;
-        }
-
-        .header-icons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .icon-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .icon-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            background: var(--accent);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4757;
-            color: white;
-            font-size: 12px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(26, 75, 140, 0.8), rgba(45, 107, 201, 0.8)), url('https://images.unsplash.com/photo-1603400521630-9f2de124b33b?ixlib=rb-4.0.3') center/cover;
-            border-radius: 15px;
-            padding: 60px 40px;
-            margin: 30px 0;
-            color: white;
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 14px 35px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            font-size: 1.1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            background: #3bb4cc;
-        }
-
-        /* Flash Sale */
-        .flash-sale {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 30px 0;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            border: 2px dashed var(--accent);
-        }
-
-        .sale-timer {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .timer-box {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            min-width: 70px;
-        }
-
-        .timer-box span {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        /* Products Section */
-        .section-title {
-            font-size: 2rem;
-            margin: 40px 0 20px;
-            position: relative;
-            display: inline-block;
-            color: var(--primary-blue);
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: var(--card-shadow);
-            position: relative;
-            border: 1px solid var(--light-blue);
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(26, 75, 140, 0.25);
-        }
-
-        .product-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 2px solid var(--light-blue);
-        }
-
-        .product-info {
-            padding: 15px;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            color: var(--primary-blue);
-        }
-
-        .product-price {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .current-price {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--secondary-blue);
-        }
-
-        .original-price {
-            text-decoration: line-through;
-            color: #888;
-        }
-
-        .discount-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: var(--accent);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark-bg);
-            color: var(--text-light);
-            padding: 50px 0 20px;
-            margin-top: 50px;
-            position: relative;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-section h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            position: relative;
-            color: var(--accent);
-        }
-
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 30px;
-            height: 3px;
-            background: var(--accent);
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .social-icons a {
-            color: white;
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            transform: translateY(-5px);
-            color: var(--accent);
-        }
-
-        .newsletter input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 30px;
-            border: none;
-            margin-bottom: 10px;
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Floating Button */
-        .floating-cart {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 6px 15px rgba(26, 75, 140, 0.3);
-            cursor: pointer;
-            z-index: 999;
-            transition: transform 0.3s ease;
-        }
-
-        .floating-cart:hover {
-            transform: scale(1.1);
-        }
-
-        /* Dark Mode Toggle */
-        .dark-mode-toggle {
-            position: fixed;
-            top: 100px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            box-shadow: 0 6px 15px rgba(26, 75, 140, 0.3);
-            cursor: pointer;
-            z-index: 999;
-        }
-
-        /* Mobile Nav */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .mobile-nav-items {
-            display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-        }
-
-        .mobile-nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 0.8rem;
-        }
-
-        .mobile-nav-item i {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-            color: var(--primary-blue);
-        }
-
-        /* Floating Clothes */
-        .floating-item {
-            position: absolute;
-            z-index: -1;
-            opacity: 0.7;
-            animation: float 15s infinite ease-in-out;
-        }
-
-        .shirt {
-            color: #1a4b8c;
-            font-size: 36px;
-        }
-
-        .pants {
-            color: #48cae4;
-            font-size: 32px;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            25% {
-                transform: translateY(-20px) rotate(5deg);
-            }
-            50% {
-                transform: translateY(10px) rotate(-5deg);
-            }
-            75% {
-                transform: translateY(-10px) rotate(3deg);
-            }
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .search-bar {
-                width: 100%;
-                max-width: none;
-                margin: 10px 0;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-
-            .mobile-nav {
-                display: block;
-            }
-
-            .dark-mode-toggle {
-                top: auto;
-                bottom: 100px;
-            }
-            
-            .floating-item {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {margin:0;font-family:Arial, sans-serif;background:#121212;color:#fff;}
+    header {padding:15px;text-align:center;background:#1f1f1f;font-size:20px;}
+    .content {padding:20px;}
+    .task {padding:15px;margin:10px 0;background:#1e1e1e;border-radius:10px;}
+    button {padding:10px 15px;border:2px solid #00ffcc;background:transparent;color:#00ffcc;border-radius:10px;cursor:pointer;transition:0.3s;}
+    button:hover {background:#00ffcc;color:#121212;}
+    nav {position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#1f1f1f;padding:10px 0;}
+    nav button {flex:1;margin:0 5px;}
+    .hidden {display:none;}
+    input, select {width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #333;background:#222;color:#fff;}
+  </style>
 </head>
 <body>
-    <!-- Floating Clothes -->
-    <i class="floating-item shirt" style="top: 15%; left: 5%; animation-delay: 0s;"><i class="fas fa-tshirt"></i></i>
-    <i class="floating-item pants" style="top: 25%; right: 7%; animation-delay: 2s;"><i class="fas fa-vest"></i></i>
-    <i class="floating-item shirt" style="top: 60%; left: 8%; animation-delay: 4s;"><i class="fas fa-tshirt"></i></i>
-    <i class="floating-item pants" style="top: 45%; right: 10%; animation-delay: 1s;"><i class="fas fa-vest"></i></i>
-    <i class="floating-item shirt" style="top: 75%; right: 5%; animation-delay: 3s;"><i class="fas fa-tshirt"></i></i>
-    <i class="floating-item pants" style="top: 35%; left: 10%; animation-delay: 5s;"><i class="fas fa-vest"></i></i>
-
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">
-                    <i class="fas fa-store"></i>ভাই মিনহাজ স্টোর
-                </a>
-                
-                <div class="search-bar">
-                    <input type="text" placeholder="পণ্য খুঁজুন...">
-                    <div class="search-suggestions">
-                        <div class="suggestion-item">শার্ট</div>
-                        <div class="suggestion-item">প্যান্ট</div>
-                        <div class="suggestion-item">জিন্স</div>
-                        <div class="suggestion-item">টি-শার্ট</div>
-                    </div>
-                </div>
-                
-                <div class="header-icons">
-                    <div class="icon-btn">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">৩</span>
-                    </div>
-                    <div class="icon-btn">
-                        <i class="fas fa-user"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <div class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <h1>ভাই মিনহাজ স্টোর</h1>
-            <p>সেরা ফ্যাশন, সেরা দাম - আপনার স্টাইল আপনার পছন্দ</p>
-            <button class="btn">এখনই কিনুন</button>
-        </section>
-
-        <!-- Flash Sale Section -->
-        <section class="flash-sale">
-            <h2>ফ্ল্যাশ সেল</h2>
-            <p>দ্রুত করুন! অফার শেষ হতে সময় বাকি:</p>
-            <div class="sale-timer">
-                <div class="timer-box">
-                    <span id="hours">১২</span>
-                    <div>ঘন্টা</div>
-                </div>
-                <div class="timer-box">
-                    <span id="minutes">৪৫</span>
-                    <div>মিনিট</div>
-                </div>
-                <div class="timer-box">
-                    <span id="seconds">৩০</span>
-                    <div>সেকেন্ড</div>
-                </div>
-            </div>
-            <button class="btn">সব সেল আইটেম দেখুন</button>
-        </section>
-
-        <!-- Categories Section -->
-        <section>
-            <h2 class="section-title">ক্যাটেগরিস</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <img src="https://placehold.co/300x200/1a4b8c/white?text=শার্ট" alt="শার্ট" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">শার্ট</h3>
-                        <button class="btn">এক্সপ্লোর</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://placehold.co/300x200/2d6bc9/white?text=প্যান্ট" alt="প্যান্ট" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">প্যান্ট</h3>
-                        <button class="btn">এক্সপ্লোর</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://placehold.co/300x200/48cae4/white?text=জিন্স" alt="জিন্স" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">জিন্স</h3>
-                        <button class="btn">এক্সপ্লোর</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://placehold.co/300x200/1a4b8c/white?text=টি-শার্ট" alt="টি-শার্ট" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">টি-শার্ট</h3>
-                        <button class="btn">এক্সপ্লোর</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Products -->
-        <section>
-            <h2 class="section-title">ফিচার্ড পণ্য</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="discount-badge">২৫% ছাড়</div>
-                    <img src="https://placehold.co/300x200/1a4b8c/white?text=ডিজাইনার+শার্ট" alt="ডিজাইনার শার্ট" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">ডিজাইনার শার্ট</h3>
-                        <div class="product-price">
-                            <span class="current-price">৳ ৮৫০</span>
-                            <span class="original-price">৳ ১১০০</span>
-                        </div>
-                        <button class="btn">কার্টে যোগ করুন</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="discount-badge">১৫% ছাড়</div>
-                    <img src="https://placehold.co/300x200/2d6bc9/white?text=কটন+প্যান্ট" alt="কটন প্যান্ট" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">কটন প্যান্ট</h3>
-                        <div class="product-price">
-                            <span class="current-price">৳ ১২০০</span>
-                            <span class="original-price">৳ ১৪০০</span>
-                        </div>
-                        <button class="btn">কার্টে যোগ করুন</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="discount-badge">৩০% ছাড়</div>
-                    <img src="https://placehold.co/300x200/48cae4/white?text=ডেনিম+জিন্স" alt="ডেনিম জিন্স" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">ডেনিম জিন্স</h3>
-                        <div class="product-price">
-                            <span class="current-price">৳ ১৫০০</span>
-                            <span class="original-price">৳ ১৮০০</span>
-                        </div>
-                        <button class="btn">কার্টে যোগ করুন</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://placehold.co/300x200/1a4b8c/white?text=পোলো+শার্ট" alt="পোলো শার্ট" class="product-img">
-                    <div class="product-info">
-                        <h3 class="product-title">পোলো শার্ট</h3>
-                        <div class="product-price">
-                            <span class="current-price">৳ ৭০০</span>
-                            <span class="original-price">৳ ৮০০</span>
-                        </div>
-                        <button class="btn">কার্টে যোগ করুন</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <header id="pageTitle">Home</header>
+  <div class="content">
+    <!-- Home -->
+    <div id="homePage">
+      <h2>আজকের টাস্ক</h2>
+      <div id="tasks"></div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>আমাদের সম্পর্কে</h3>
-                    <p>ভাই মিনহাজ স্টোর বাংলাদেশের একটি বিশ্বস্ত ফ্যাশন রিটেইলার, মানসম্মত পণ্য সাশ্রয়ী মূল্যে সরবরাহ করে।</p>
-                </div>
-                <div class="footer-section">
-                    <h3>দ্রুত লিংক</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">হোম</a></li>
-                        <li><a href="#">পণ্য</a></li>
-                        <li><a href="#">ক্যাটেগরিস</a></li>
-                        <li><a href="#">আমাদের সম্পর্কে</a></li>
-                        <li><a href="#">যোগাযোগ</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>যোগাযোগ</h3>
-                    <p><i class="fas fa-phone"></i> +৮৮০ ১৯২৯-৭৯৩৪৮৭</p>
-                    <p><i class="fas fa-envelope"></i> info@minhazstore.com</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>নিউজলেটার</h3>
-                    <p>আপডেট পেতে সাবস্ক্রাইব করুন</p>
-                    <div class="newsletter">
-                        <input type="email" placeholder="আপনার ইমেইল">
-                        <button class="btn">সাবস্ক্রাইব</button>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; ২০২৩ ভাই মিনহাজ স্টোর। সকল права সংরক্ষিত।</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Cart Button -->
-    <div class="floating-cart">
-        <i class="fas fa-shopping-cart"></i>
+    <!-- Refer -->
+    <div id="referPage" class="hidden">
+      <h2>Referral System</h2>
+      <p>আপনার Referral Link:</p>
+      <input id="refLink" readonly>
+      <button onclick="copyRef()">Copy Link</button>
+      <h3>মোট রেফার: <span id="refCount">0</span></h3>
+      <h3>মোট ইনকাম: ৳<span id="refIncome">0</span></h3>
     </div>
 
-    <!-- Dark Mode Toggle -->
-    <div class="dark-mode-toggle">
-        <i class="fas fa-moon"></i>
+    <!-- Profile -->
+    <div id="profilePage" class="hidden">
+      <h2>প্রোফাইল</h2>
+      <p><b>নাম:</b> <span id="userName"></span></p>
+      <p><b>মোট রেফার:</b> <span id="profileRef">0</span></p>
+      <p><b>মোট ইনকাম:</b> ৳<span id="profileIncome">0</span></p>
+
+      <h3>Withdraw</h3>
+      <p>মিনিমাম 100 টাকা এবং অন্তত 5 রেফার লাগবে</p>
+      <form id="withdrawForm">
+        <select id="method">
+          <option value="bkash">বিকাশ</option>
+          <option value="nagad">নগদ</option>
+        </select>
+        <input type="number" id="number" placeholder="নাম্বার দিন" required>
+        <input type="number" id="amount" placeholder="পরিমাণ টাকা" required>
+        <button type="submit">Withdraw</button>
+      </form>
+      <p id="withdrawMsg"></p>
+
+      <h3>Policy</h3>
+      <ul>
+        <li>একদিনে ৫টি টাস্ক সম্পন্ন করা যাবে।</li>
+        <li>প্রতি রেফারে ২৫ টাকা যোগ হবে।</li>
+        <li>উইড্রোর জন্য ন্যূনতম ১০০ টাকা এবং ৫টি রেফার আবশ্যক।</li>
+      </ul>
     </div>
+  </div>
 
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav">
-        <div class="mobile-nav-items">
-            <a href="#" class="mobile-nav-item">
-                <i class="fas fa-home"></i>
-                <span>হোম</span>
-            </a>
-            <a href="#" class="mobile-nav-item">
-                <i class="fas fa-shopping-cart"></i>
-                <span>কার্ট</span>
-            </a>
-            <a href="#" class="mobile-nav-item">
-                <i class="fas fa-user"></i>
-                <span>প্রোফাইল</span>
-            </a>
-            <a href="#" class="mobile-nav-item">
-                <i class="fas fa-box"></i>
-                <span>অর্ডার</span>
-            </a>
-        </div>
-    </div>
+  <!-- Navigation -->
+  <nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('refer')">Refer</button>
+    <button onclick="showPage('profile')">Profile</button>
+  </nav>
 
-    <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.querySelector('.dark-mode-toggle');
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const icon = darkModeToggle.querySelector('i');
-            if (document.body.classList.contains('dark-mode')) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        });
+  <script>
+    let tg = window.Telegram.WebApp;
+    tg.expand();
 
-        // Countdown Timer
-        function updateTimer() {
-            const hours = document.getElementById('hours');
-            const minutes = document.getElementById('minutes');
-            const seconds = document.getElementById('seconds');
-            
-            let sec = parseInt(seconds.innerText);
-            let min = parseInt(minutes.innerText);
-            let hr = parseInt(hours.innerText);
-            
-            sec--;
-            
-            if (sec < 0) {
-                sec = 59;
-                min--;
-                
-                if (min < 0) {
-                    min = 59;
-                    hr--;
-                    
-                    if (hr < 0) {
-                        hr = 23;
-                        min = 59;
-                        sec = 59;
-                    }
-                }
-            }
-            
-            seconds.innerText = sec.toString().padStart(2, '0');
-            minutes.innerText = min.toString().padStart(2, '0');
-            hours.innerText = hr.toString().padStart(2, '0');
-        }
-        
-        setInterval(updateTimer, 1000);
+    // ইউজার ইনফো
+    let user = tg.initDataUnsafe.user || {id:12345, first_name:"Demo"};
+    let uid = user.id;
+    let name = user.first_name + (user.last_name ? " " + user.last_name : "");
 
-        // Product Card Hover Effect
-        const productCards = document.querySelectorAll('.product-card');
-        productCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const x = e.clientX - card.getBoundingClientRect().left;
-                const y = e.clientY - card.getBoundingClientRect().top;
-                
-                const centerX = card.offsetWidth / 2;
-                const centerY = card.offsetHeight / 2;
-                
-                const angleX = (y - centerY) / 10;
-                const angleY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateY(-10px)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
-            });
-        });
-    </script>
+    document.getElementById("userName").innerText = name;
+    document.getElementById("refLink").value = "https://t.me/YOUR_BOT?start=" + uid;
+
+    // Local Storage ডেটা
+    let refCount = parseInt(localStorage.getItem("refCount") || 0);
+    let income = parseInt(localStorage.getItem("income") || 0);
+    let completedTasks = parseInt(localStorage.getItem("tasks") || 0);
+
+    updateUI();
+
+    // টাস্ক তৈরি
+    function loadTasks(){
+      let container = document.getElementById("tasks");
+      container.innerHTML = "";
+      for(let i=1; i<=5; i++){
+        let done = (i <= completedTasks);
+        let div = document.createElement("div");
+        div.className = "task";
+        div.innerHTML = `<b>Task ${i}</b><br>` +
+                        (done ? "✅ Completed" : `<button onclick="completeTask(${i})">Complete</button>`);
+        container.appendChild(div);
+      }
+    }
+    loadTasks();
+
+    function completeTask(i){
+      if(completedTasks >= i){
+        alert("এই টাস্ক আগে কমপ্লিট করা হয়েছে!");
+        return;
+      }
+      if(completedTasks >= 5){
+        alert("আজকের সব টাস্ক শেষ!");
+        return;
+      }
+      completedTasks++;
+      localStorage.setItem("tasks", completedTasks);
+      income += 10; // প্রতিটি টাস্কে ১০ টাকা ধরা হলো
+      localStorage.setItem("income", income);
+      updateUI();
+      loadTasks();
+    }
+
+    function copyRef(){
+      let copyText = document.getElementById("refLink");
+      copyText.select();
+      copyText.setSelectionRange(0,99999);
+      document.execCommand("copy");
+      alert("Referral Link Copied!");
+    }
+
+    function updateUI(){
+      document.getElementById("refCount").innerText = refCount;
+      document.getElementById("refIncome").innerText = refCount*25;
+      document.getElementById("profileRef").innerText = refCount;
+      document.getElementById("profileIncome").innerText = income + (refCount*25);
+    }
+
+    // Withdraw Form
+    document.getElementById("withdrawForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      let method = document.getElementById("method").value;
+      let number = document.getElementById("number").value;
+      let amount = parseInt(document.getElementById("amount").value);
+      let totalIncome = income + (refCount*25);
+
+      if(totalIncome < 100 || refCount < 5){
+        document.getElementById("withdrawMsg").innerText = "❌ শর্ত পূরণ হয়নি!";
+        return;
+      }
+      if(amount > totalIncome){
+        document.getElementById("withdrawMsg").innerText = "❌ আপনার ব্যালেন্স পর্যাপ্ত নয়!";
+        return;
+      }
+      document.getElementById("withdrawMsg").innerText = "✅ Withdraw Request Sent ("+method+" - "+number+" - ৳"+amount+")";
+    });
+
+    // পেজ নেভিগেশন
+    function showPage(page){
+      document.getElementById("pageTitle").innerText = page.charAt(0).toUpperCase()+page.slice(1);
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("referPage").classList.add("hidden");
+      document.getElementById("profilePage").classList.add("hidden");
+      if(page=="home") document.getElementById("homePage").classList.remove("hidden");
+      if(page=="refer") document.getElementById("referPage").classList.remove("hidden");
+      if(page=="profile") document.getElementById("profilePage").classList.remove("hidden");
+    }
+  </script>
 </body>
-</html> 
+    </html>
