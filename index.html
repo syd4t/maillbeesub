@@ -19,10 +19,6 @@
     <!-- Three.js for 3D animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
-    
     <style>
         /* CSS Variables for Purple Instagram Style Theme */
         :root {
@@ -277,99 +273,6 @@
         }
         #copy-ref-link-btn:active {
             transform: translateY(0);
-        }
-
-        /* Leaderboard Section */
-        .leaderboard-section {
-            margin-top: 30px;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .leaderboard-section:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-        }
-        .leaderboard-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--primary-gradient);
-        }
-        .light-theme .leaderboard-section { background-color: var(--secondary-bg-light); }
-        .dark-theme .leaderboard-section { background-color: var(--secondary-bg-dark); }
-        .leaderboard-section h3 { 
-            text-align: center; 
-            margin-bottom: 15px; 
-            font-weight: 700; 
-            font-size: 1.3rem;
-        }
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .leaderboard-table th, .leaderboard-table td {
-            padding: 10px;
-            text-align: left;
-            font-size: 0.9rem;
-        }
-        .leaderboard-table th {
-            font-weight: 700;
-            background: var(--primary-gradient);
-            color: #fff;
-        }
-        .light-theme .leaderboard-table td { 
-            border-bottom: 1px solid var(--border-color-light); 
-            color: var(--text-color-light);
-        }
-        .dark-theme .leaderboard-table td { 
-            border-bottom: 1px solid var(--border-color-dark); 
-            color: var(--text-color-dark);
-        }
-        .leaderboard-table .badge {
-            font-size: 1.2rem;
-            margin-right: 5px;
-        }
-        .running-list {
-            margin-top: 20px;
-        }
-        .running-list h4 {
-            text-align: center;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        .running-list ul {
-            list-style: none;
-            padding: 0;
-        }
-        .running-list li {
-            padding: 8px 0;
-            font-size: 0.9rem;
-            border-bottom: 1px dashed;
-        }
-        .light-theme .running-list li { 
-            border-bottom-color: var(--border-color-light); 
-            color: var(--text-color-light);
-        }
-        .dark-theme .running-list li { 
-            border-bottom-color: var(--border-color-dark); 
-            color: var(--text-color-dark);
-        }
-        .crown-animation {
-            animation: crownSpin 2s linear infinite;
-            display: inline-block;
-        }
-        @keyframes crownSpin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         /* Task/Bonus Container */
@@ -648,7 +551,6 @@
             .task-container { padding: 20px 15px; }
             .nav-btn { padding: 5px 10px; }
             .nav-btn i { font-size: 1.3rem; }
-            .leaderboard-table th, .leaderboard-table td { font-size: 0.8rem; padding: 8px; }
         }
     </style>
 </head>
@@ -687,39 +589,6 @@
                     <p>Share your link to get ৳25 per referral.</p>
                     <input type="text" id="referral-link" readonly>
                     <button id="copy-ref-link-btn">Copy Referral Link</button>
-                </div>
-                <div class="leaderboard-section">
-                    <h3>🏆 Weekly Leaderboard</h3>
-                    <table class="leaderboard-table">
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Reward</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaderboard-top">
-                            <tr>
-                                <td><span class="badge crown-animation">👑</span> ১</td>
-                                <td>💰 ১০০০০ টাকা 🎁 T-Shirt + Paynex ব্যাগ</td>
-                                <td>winner nexars gift নিতে পারবেন চাইলে নগদ টাকা  নিতে পারবে💜</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge">⭐</span> ২</td>
-                                <td>৭০০০ টাকা 🎁 T-Shirt + Paynex ব্যাগ</td>
-                                <td>winner nexars gift নিতে পারবেন চাইলে নগদ টাকা  নিতে পারবে</td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge">🏅</span> ৩</td>
-                                <td>💵 ১০০০ টাকা অথবা 🎁 Small Gift</td>
-                                <td>small gift যেকোনো কিছু থাকতে পারে ❤️‍🩹</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="running-list">
-                        <h4>🔔 নোটিশ বোর্ড / রানিং লিস্ট</h4>
-                        <ul id="running-list"></ul>
-                    </div>
                 </div>
             </div>
 
@@ -807,22 +676,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const tg = window.Telegram.WebApp;
 
-            // --- Firebase Configuration ---
-            const firebaseConfig = {
-                apiKey: "AIzaSyCho5RtEIoXnNlNNrpBg65BmTpJY23Se7Y",
-                authDomain: "maillbeex.firebaseapp.com",
-                databaseURL: "https://maillbeex-default-rtdb.firebaseio.com",
-                projectId: "maillbeex",
-                storageBucket: "maillbeex.firebasestorage.app",
-                messagingSenderId: "5938669413",
-                appId: "1:5938669413:web:34b6bbbbb0e81628a2a38c",
-                measurementId: "G-F6YNLNQSK7"
-            };
-            firebase.initializeApp(firebaseConfig);
-            const database = firebase.database();
-
             // --- Configuration ---
-            const BOT_TOKEN = "8452148581:AAGk cosmetZLOKWequ7ymuWIzlFct3joP-IwZbA";
+            const BOT_TOKEN = "8452148581:AAGkseZLOKWequ7ymuWIzlFct3joP-IwZbA";
             const BOT_USERNAME = "Paynex_Earnbot";
             const ADMIN_CHAT_ID = "6786186083";
             const CHANNEL_LINK = "https://t.me/nexersupdate";
@@ -847,8 +702,6 @@
             const loadingModal = document.getElementById('loading-modal');
             const profileForm = document.getElementById('profile-form');
             const profileSubmitBtn = document.getElementById('profile-submit-btn');
-            const leaderboardTopElem = document.getElementById('leaderboard-top');
-            const runningListElem = document.getElementById('running-list');
 
             // --- State Management ---
             let userState = {
@@ -864,62 +717,21 @@
 
             const saveState = () => {
                 if (userState.userId) {
-                    database.ref('users/' + userState.userId).set(userState);
                     localStorage.setItem(`userState_${userState.userId}`, JSON.stringify(userState));
                 }
             };
 
             const loadState = (userId) => {
-                database.ref('users/' + userId).once('value').then(snapshot => {
-                    const savedState = snapshot.val();
-                    if (savedState) {
-                        userState = { ...userState, ...savedState };
-                        // Ensure new state properties exist
-                        if (userState.hasJoinedChannel === undefined) userState.hasJoinedChannel = false;
-                        if (userState.profileName === undefined) userState.profileName = '';
-                        if (userState.profilePhoto === undefined) userState.profilePhoto = '';
-                        localStorage.setItem(`userState_${userId}`, JSON.stringify(userState));
-                        updateUI();
-                    }
-                });
+                const savedState = localStorage.getItem(`userState_${userId}`);
+                if (savedState) {
+                    userState = JSON.parse(savedState);
+                    // Ensure new state properties exist
+                    if (userState.hasJoinedChannel === undefined) userState.hasJoinedChannel = false;
+                    if (userState.profileName === undefined) userState.profileName = '';
+                    if (userState.profilePhoto === undefined) userState.profilePhoto = '';
+                }
             };
-
-            // --- Leaderboard Functions ---
-            const updateLeaderboard = () => {
-                database.ref('users').orderByChild('points').limitToLast(10).once('value').then(snapshot => {
-                    const users = [];
-                    snapshot.forEach(childSnapshot => {
-                        const userData = childSnapshot.val();
-                        users.push({
-                            userId: childSnapshot.key,
-                            profileName: userData.profileName || 'Unknown',
-                            points: userData.points || 0
-                        });
-                    });
-                    users.reverse(); // Top points first
-
-                    // Update running list (4th to 10th)
-                    runningListElem.innerHTML = '';
-                    users.slice(3, 10).forEach((user, index) => {
-                        const li = document.createElement('li');
-                        li.textContent = `${index + 4}. ${user.profileName} - ৳${user.points.toFixed(2)} TK`;
-                        runningListElem.appendChild(li);
-                    });
-
-                    // Announce top 3 at week end (simulated)
-                    const today = new Date();
-                    if (today.getDay() === 0 && today.getHours() === 23) { // Sunday 11 PM
-                        if (users.length > 0) {
-                            const top3 = users.slice(0, 3).map((user, index) => {
-                                const badges = ['👑', '⭐', '🏅'];
-                                return `${index + 1}. ${user.profileName} - ৳${user.points.toFixed(2)} TK (${badges[index]})`;
-                            });
-                            tg.showAlert(`Weekly Top 3:\n${top3.join('\n')}`);
-                        }
-                    }
-                });
-            };
-
+            
             // --- 3D Background Animation ---
             const init3DBackground = () => {
                 const scene = new THREE.Scene();
@@ -1002,13 +814,7 @@
                 setupNavigation();
                 setupEventListeners();
                 handleReferral();
-                updateLeaderboard();
                 saveState();
-
-                // Real-time leaderboard updates
-                database.ref('users').on('value', () => {
-                    updateLeaderboard();
-                });
             };
             
             const updateUI = () => {
@@ -1176,16 +982,14 @@
                 if (startParam && startParam.startsWith('ref_')) {
                     const referrerId = startParam.split('ref_')[1];
                     if (referrerId && referrerId !== userState.userId && !userState.referrals.includes(userState.userId)) {
-                        database.ref('users/' + referrerId).once('value').then(snapshot => {
-                            const referrerState = snapshot.val() || { points: 0, referrals: [] };
-                            referrerState.referrals = referrerState.referrals || [];
-                            if (!referrerState.referrals.includes(userState.userId)) {
-                                referrerState.points += REFERRAL_BONUS;
-                                referrerState.referrals.push(userState.userId);
-                                database.ref('users/' + referrerId).set(referrerState);
-                                localStorage.setItem(`userState_${referrerId}`, JSON.stringify(referrerState));
-                            }
-                        });
+                        // Simulate adding referral bonus to referrer
+                        const referrerState = JSON.parse(localStorage.getItem(`userState_${referrerId}`)) || { points: 0, referrals: [] };
+                        referrerState.referrals = referrerState.referrals || [];
+                        if (!referrerState.referrals.includes(userState.userId)) {
+                            referrerState.points += REFERRAL_BONUS;
+                            referrerState.referrals.push(userState.userId);
+                            localStorage.setItem(`userState_${referrerId}`, JSON.stringify(referrerState));
+                        }
                     }
                 }
             };
