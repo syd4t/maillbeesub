@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>paynex</title>
+    <meta name="description" content="PayNex - Telegram রিওয়ার্ড অ্যাপে টাকা উপার্জন করুন">
+    <meta name="keywords" content="টাকা উপার্জন, রিওয়ার্ড, টেলিগ্রাম, বিজ্ঞাপন দেখুন, রেফারেল">
+    <meta name="author" content="PayNex">
+    <title>PayNex - Telegram রিওয়ার্ড অ্যাপ</title>
     
     <!-- Google Fonts (Nunito) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,51 +16,113 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-    <!-- Internal CSS -->
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
+    
     <style>
-        /* Google Font Import */
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
-
-        /* CSS Variables for Theming */
+        /* CSS Variables for Purple Instagram Style Theme */
         :root {
             --font-family: 'Nunito', sans-serif;
-            --bg-color-light: #f4f4f9;
+            --primary-gradient: linear-gradient(135deg, #8A2BE2, #4B0082);
+            --secondary-gradient: linear-gradient(135deg, #9400D3, #9932CC);
+            --bg-color-light: #f8f4ff;
             --secondary-bg-light: #ffffff;
-            --text-color-light: #1c1c1e;
-            --subtle-text-light: #6d6d72;
-            --primary-color-light: #007aff;
-            --border-color-light: #e0e0e0;
-            --bg-color-dark: #121212;
-            --secondary-bg-dark: #1c1c1e;
+            --text-color-light: #2d0036;
+            --subtle-text-light: #6d4c7a;
+            --primary-color-light: #8A2BE2;
+            --border-color-light: #e6d4f5;
+            --bg-color-dark: #1a0025;
+            --secondary-bg-dark: #2d0036;
             --text-color-dark: #ffffff;
-            --subtle-text-dark: #8e8e93;
-            --primary-color-dark: #0a84ff;
-            --border-color-dark: #38383a;
+            --subtle-text-dark: #b399c2;
+            --primary-color-dark: #a855f7;
+            --border-color-dark: #4a1e66;
+            --shadow: 0 4px 20px rgba(138, 43, 226, 0.15);
+            --shadow-hover: 0 8px 30px rgba(138, 43, 226, 0.25);
         }
 
         /* Base Styles */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
         body {
             font-family: var(--font-family);
             transition: background-color 0.3s, color 0.3s;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
         /* Theme Styles */
-        body.light-theme { background-color: var(--bg-color-light); color: var(--text-color-light); }
-        body.dark-theme { background-color: var(--bg-color-dark); color: var(--text-color-dark); }
-        #app { max-width: 500px; margin: 0 auto; padding-bottom: 80px; } /* Increased padding for 4 buttons */
+        body.light-theme { 
+            background-color: var(--bg-color-light); 
+            color: var(--text-color-light); 
+        }
+        body.dark-theme { 
+            background-color: var(--bg-color-dark); 
+            color: var(--text-color-dark); 
+        }
+        #app { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            padding-bottom: 80px; 
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 3D Background Animation */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+            pointer-events: none;
+        }
 
         /* Profile Header */
-        .profile-header { padding: 20px 15px; display: flex; align-items: center; border-bottom: 1px solid; }
+        .profile-header { 
+            padding: 20px 15px; 
+            display: flex; 
+            align-items: center; 
+            border-bottom: 1px solid; 
+            position: relative;
+            z-index: 2;
+            background: var(--secondary-bg-light);
+            box-shadow: var(--shadow);
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 10px;
+        }
+        .dark-theme .profile-header { 
+            background: var(--secondary-bg-dark);
+        }
         .light-theme .profile-header { border-bottom-color: var(--border-color-light); }
         .dark-theme .profile-header { border-bottom-color: var(--border-color-dark); }
         .profile-info { display: flex; align-items: center; gap: 15px; }
-        #user-photo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid; }
+        #user-photo { 
+            width: 70px; 
+            height: 70px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 3px solid; 
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+        #user-photo:hover {
+            transform: scale(1.05);
+        }
         .light-theme #user-photo { border-color: var(--primary-color-light); }
         .dark-theme #user-photo { border-color: var(--primary-color-dark); }
-        .user-details h1 { font-size: 1.2rem; font-weight: 700; }
+        .user-details h1 { font-size: 1.3rem; font-weight: 700; }
         .verified-icon { font-size: 1rem; margin-left: 5px; }
         .light-theme .verified-icon { color: var(--primary-color-light); }
         .dark-theme .verified-icon { color: var(--primary-color-dark); }
@@ -66,98 +131,531 @@
         .dark-theme .user-details p { color: var(--subtle-text-dark); }
 
         /* Main Content & Pages */
-        main { padding: 15px; }
+        main { padding: 15px; position: relative; z-index: 2; }
         .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        h2 { font-size: 1.5rem; margin-bottom: 15px; }
+        .page.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        h2 { 
+            font-size: 1.6rem; 
+            margin-bottom: 20px; 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-weight: 800;
+        }
 
         /* Home Page Stats & Referral */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .stat-card { padding: 20px; border-radius: 12px; text-align: center; }
-        .light-theme .stat-card { background-color: var(--secondary-bg-light); border: 1px solid var(--border-color-light); }
-        .dark-theme .stat-card { background-color: var(--secondary-bg-dark); border: 1px solid var(--border-color-dark); }
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px; 
+            margin-top: 20px; 
+        }
+        .stat-card { 
+            padding: 20px; 
+            border-radius: 16px; 
+            text-align: center; 
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-gradient);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .light-theme .stat-card { background-color: var(--secondary-bg-light); }
+        .dark-theme .stat-card { background-color: var(--secondary-bg-dark); }
         .stat-card h3 { font-size: 0.9rem; margin-bottom: 10px; }
         .light-theme .stat-card h3 { color: var(--subtle-text-light); }
         .dark-theme .stat-card h3 { color: var(--subtle-text-dark); }
-        .stat-card p { font-size: 1.5rem; font-weight: 700; }
-        .light-theme .stat-card p { color: var(--primary-color-light); }
-        .dark-theme .stat-card p { color: var(--primary-color-dark); }
-        .referral-section { margin-top: 30px; padding: 20px; border-radius: 12px; }
-        .light-theme .referral-section { background-color: var(--secondary-bg-light); border: 1px solid var(--border-color-light); }
-        .dark-theme .referral-section { background-color: var(--secondary-bg-dark); border: 1px solid var(--border-color-dark); }
-        .referral-section h3 { text-align: center; }
-        #referral-link { width: 100%; padding: 10px; text-align: center; border: 1px dashed; border-radius: 8px; margin: 10px 0; font-size: 0.9rem; }
-        .light-theme #referral-link { border-color: var(--primary-color-light); background-color: var(--bg-color-light); color: var(--text-color-light); }
-        .dark-theme #referral-link { border-color: var(--primary-color-dark); background-color: var(--bg-color-dark); color: var(--text-color-dark); }
-        #copy-ref-link-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; color: #fff; cursor: pointer; font-weight: 600; }
-        .light-theme #copy-ref-link-btn { background-color: var(--primary-color-light); }
-        .dark-theme #copy-ref-link-btn { background-color: var(--primary-color-dark); }
+        .stat-card p { font-size: 1.8rem; font-weight: 800; }
+        .light-theme .stat-card p { 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark-theme .stat-card p { 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .referral-section { 
+            margin-top: 30px; 
+            padding: 25px; 
+            border-radius: 16px; 
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .referral-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .referral-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-gradient);
+        }
+        .light-theme .referral-section { background-color: var(--secondary-bg-light); }
+        .dark-theme .referral-section { background-color: var(--secondary-bg-dark); }
+        .referral-section h3 { text-align: center; margin-bottom: 10px; font-weight: 700; }
+        #referral-link { 
+            width: 100%; 
+            padding: 12px; 
+            text-align: center; 
+            border: 1px dashed; 
+            border-radius: 12px; 
+            margin: 15px 0; 
+            font-size: 0.9rem; 
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .light-theme #referral-link { 
+            border-color: var(--primary-color-light); 
+            background-color: var(--bg-color-light); 
+            color: var(--text-color-light); 
+        }
+        .dark-theme #referral-link { 
+            border-color: var(--primary-color-dark); 
+            background-color: var(--bg-color-dark); 
+            color: var(--text-color-dark); 
+        }
+        #referral-link:focus {
+            outline: none;
+            border-style: solid;
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+        #copy-ref-link-btn { 
+            width: 100%; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 12px; 
+            color: #fff; 
+            cursor: pointer; 
+            font-weight: 700; 
+            font-size: 1rem;
+            background: var(--primary-gradient);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        #copy-ref-link-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        #copy-ref-link-btn:hover::before {
+            left: 100%;
+        }
+        #copy-ref-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        #copy-ref-link-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Leaderboard Section */
+        .leaderboard-section {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .leaderboard-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .leaderboard-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-gradient);
+        }
+        .light-theme .leaderboard-section { background-color: var(--secondary-bg-light); }
+        .dark-theme .leaderboard-section { background-color: var(--secondary-bg-dark); }
+        .leaderboard-section h3 { 
+            text-align: center; 
+            margin-bottom: 15px; 
+            font-weight: 700; 
+            font-size: 1.3rem;
+        }
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 10px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .leaderboard-table th {
+            font-weight: 700;
+            background: var(--primary-gradient);
+            color: #fff;
+        }
+        .light-theme .leaderboard-table td { 
+            border-bottom: 1px solid var(--border-color-light); 
+            color: var(--text-color-light);
+        }
+        .dark-theme .leaderboard-table td { 
+            border-bottom: 1px solid var(--border-color-dark); 
+            color: var(--text-color-dark);
+        }
+        .leaderboard-table .badge {
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+        .running-list {
+            margin-top: 20px;
+        }
+        .running-list h4 {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .running-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .running-list li {
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed;
+        }
+        .light-theme .running-list li { 
+            border-bottom-color: var(--border-color-light); 
+            color: var(--text-color-light);
+        }
+        .dark-theme .running-list li { 
+            border-bottom-color: var(--border-color-dark); 
+            color: var(--text-color-dark);
+        }
+        .crown-animation {
+            animation: crownSpin 2s linear infinite;
+            display: inline-block;
+        }
+        @keyframes crownSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         
         /* Task/Bonus Container */
-        .task-container { padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; }
+        .task-container { 
+            padding: 25px; 
+            border-radius: 16px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .task-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary-gradient);
+        }
+        .task-container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
         .task-container:last-child { margin-bottom: 0; }
-        .light-theme .task-container { background-color: var(--secondary-bg-light); border: 1px solid var(--border-color-light); }
-        .dark-theme .task-container { background-color: var(--secondary-bg-dark); border: 1px solid var(--border-color-dark); }
-        .task-icon { font-size: 3rem; margin-bottom: 15px; }
-        .light-theme .task-icon { color: var(--primary-color-light); }
-        .dark-theme .task-icon { color: var(--primary-color-dark); }
-        .task-container h3 { font-size: 1.2rem; margin-bottom: 5px; }
-        .task-container p { font-size: 0.9rem; margin-bottom: 20px; }
+        .light-theme .task-container { background-color: var(--secondary-bg-light); }
+        .dark-theme .task-container { background-color: var(--secondary-bg-dark); }
+        .task-icon { 
+            font-size: 3.5rem; 
+            margin-bottom: 15px; 
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.5s;
+        }
+        .task-container:hover .task-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .task-container h3 { font-size: 1.3rem; margin-bottom: 10px; font-weight: 700; }
+        .task-container p { font-size: 0.95rem; margin-bottom: 20px; line-height: 1.5; }
         .light-theme .task-container p { color: var(--subtle-text-light); }
         .dark-theme .task-container p { color: var(--subtle-text-dark); }
 
         /* Action Button */
-        .action-btn { width: 100%; padding: 15px; font-size: 1rem; font-weight: 700; color: #fff; border: none; border-radius: 10px; cursor: pointer; transition: background-color 0.2s, opacity 0.2s; position: relative; display: flex; justify-content: center; align-items: center; }
-        .light-theme .action-btn { background-color: var(--primary-color-light); }
-        .dark-theme .action-btn { background-color: var(--primary-color-dark); }
-        .action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .btn-loader { width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.4); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+        .action-btn { 
+            width: 100%; 
+            padding: 16px; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: #fff; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            position: relative; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            background: var(--primary-gradient);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        .action-btn:hover::before {
+            left: 100%;
+        }
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        .action-btn:active {
+            transform: translateY(0);
+        }
+        .action-btn:disabled { 
+            opacity: 0.6; 
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .action-btn:disabled:hover::before {
+            left: -100%;
+        }
+        .btn-loader { 
+            width: 20px; 
+            height: 20px; 
+            border: 3px solid rgba(255, 255, 255, 0.4); 
+            border-top-color: #fff; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            display: none; 
+        }
         .action-btn.loading .btn-text { visibility: hidden; }
         .action-btn.loading .btn-loader { display: block; position: absolute; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Form Styles */
-        #withdraw-form .form-group, #profile-form .form-group { margin-bottom: 15px; }
-        #withdraw-form label, #profile-form label { display: block; margin-bottom: 5px; font-weight: 600; }
-        #withdraw-form input, #withdraw-form select, #profile-form input { width: 100%; padding: 12px; border-radius: 8px; font-family: var(--font-family); font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s; }
-        .light-theme #withdraw-form input, .light-theme #withdraw-form select, .light-theme #profile-form input { background-color: var(--bg-color-light); border: 1px solid var(--border-color-light); color: var(--text-color-light); }
-        .dark-theme #withdraw-form input, .dark-theme #withdraw-form select, .dark-theme #profile-form input { background-color: var(--secondary-bg-dark); border: 1px solid var(--border-color-dark); color: var(--text-color-dark); }
-        .light-theme input:focus, .light-theme select:focus { outline: none; border-color: var(--primary-color-light); box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15); }
-        .dark-theme input:focus, .dark-theme select:focus { outline: none; border-color: var(--primary-color-dark); box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2); }
+        #withdraw-form .form-group, #profile-form .form-group { margin-bottom: 20px; }
+        #withdraw-form label, #profile-form label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 700; 
+            font-size: 0.95rem;
+        }
+        #withdraw-form input, #withdraw-form select, #profile-form input { 
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 10px; 
+            font-family: var(--font-family); 
+            font-size: 1rem; 
+            transition: all 0.3s;
+            border: 2px solid;
+        }
+        .light-theme #withdraw-form input, .light-theme #withdraw-form select, .light-theme #profile-form input { 
+            background-color: var(--bg-color-light); 
+            border-color: var(--border-color-light); 
+            color: var(--text-color-light); 
+        }
+        .dark-theme #withdraw-form input, .dark-theme #withdraw-form select, .dark-theme #profile-form input { 
+            background-color: var(--secondary-bg-dark); 
+            border-color: var(--border-color-dark); 
+            color: var(--text-color-dark); 
+        }
+        .light-theme input:focus, .light-theme select:focus { 
+            outline: none; 
+            border-color: var(--primary-color-light); 
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.15); 
+        }
+        .dark-theme input:focus, .dark-theme select:focus { 
+            outline: none; 
+            border-color: var(--primary-color-dark); 
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2); 
+        }
         
         /* Bottom Navigation */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 500px; margin: 0 auto; display: flex; justify-content: space-around; padding: 5px 0; border-top: 1px solid; z-index: 1000; }
-        .light-theme .bottom-nav { background-color: var(--secondary-bg-light); border-top-color: var(--border-color-light); }
-        .dark-theme .bottom-nav { background-color: var(--secondary-bg-dark); border-top-color: var(--border-color-dark); }
-        .nav-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; padding: 5px 10px; font-family: var(--font-family); font-size: 0.7rem; transition: color 0.2s; flex-grow: 1; }
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            max-width: 500px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-around; 
+            padding: 10px 0; 
+            border-top: 1px solid; 
+            z-index: 1000; 
+            background: var(--secondary-bg-light);
+            box-shadow: 0 -5px 20px rgba(138, 43, 226, 0.1);
+            border-radius: 20px 20px 0 0;
+        }
+        .dark-theme .bottom-nav { 
+            background: var(--secondary-bg-dark);
+        }
+        .light-theme .bottom-nav { border-top-color: var(--border-color-light); }
+        .dark-theme .bottom-nav { border-top-color: var(--border-color-dark); }
+        .nav-btn { 
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 8px 15px; 
+            font-family: var(--font-family); 
+            font-size: 0.75rem; 
+            transition: all 0.3s; 
+            flex-grow: 1;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
         .light-theme .nav-btn { color: var(--subtle-text-light); }
         .dark-theme .nav-btn { color: var(--subtle-text-dark); }
-        .nav-btn i { font-size: 1.4rem; margin-bottom: 3px; }
-        .nav-btn.active { font-weight: 700; }
-        .light-theme .nav-btn.active { color: var(--primary-color-light); }
-        .dark-theme .nav-btn.active { color: var(--primary-color-dark); }
+        .nav-btn i { 
+            font-size: 1.5rem; 
+            margin-bottom: 5px; 
+            transition: all 0.3s;
+        }
+        .nav-btn.active { 
+            font-weight: 700;
+            transform: translateY(-5px);
+        }
+        .light-theme .nav-btn.active { 
+            color: var(--primary-color-light); 
+        }
+        .dark-theme .nav-btn.active { 
+            color: var(--primary-color-dark); 
+        }
+        .nav-btn.active i {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: scale(1.1);
+        }
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transition: width 0.3s;
+            border-radius: 3px 3px 0 0;
+        }
+        .nav-btn.active::before {
+            width: 30px;
+        }
         
         /* Modal Styles */
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); justify-content: center; align-items: center; }
-        .modal-content { padding: 30px; border-radius: 15px; text-align: center; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.7); 
+            justify-content: center; 
+            align-items: center; 
+            backdrop-filter: blur(5px);
+        }
+        .modal-content { 
+            padding: 30px; 
+            border-radius: 20px; 
+            text-align: center; 
+            max-width: 300px;
+            width: 80%;
+            box-shadow: var(--shadow-hover);
+            animation: modalAppear 0.4s ease-out;
+        }
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
         .light-theme .modal-content { background-color: var(--secondary-bg-light); }
         .dark-theme .modal-content { background-color: var(--secondary-bg-dark); }
-        .loader { border: 5px solid #f3f3f3; border-radius: 50%; border-top: 5px solid; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
+        .loader { 
+            border: 5px solid #f3f3f3; 
+            border-radius: 50%; 
+            border-top: 5px solid; 
+            width: 50px; 
+            height: 50px; 
+            animation: spin 1s linear infinite; 
+            margin: 0 auto 20px; 
+        }
         .light-theme .loader { border-top-color: var(--primary-color-light); }
         .dark-theme .loader { border-top-color: var(--primary-color-dark); }
-        
-        /* Cooldown Timer Styles */
-        .cooldown-timer {
-            font-size: 0.8rem;
-            margin-top: 5px;
-            font-weight: 600;
+
+        /* Pulse Animation for Important Elements */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        .light-theme .cooldown-timer { color: var(--subtle-text-light); }
-        .dark-theme .cooldown-timer { color: var(--subtle-text-dark); }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 400px) {
+            .profile-header { padding: 15px 10px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .task-container { padding: 20px 15px; }
+            .nav-btn { padding: 5px 10px; }
+            .nav-btn i { font-size: 1.3rem; }
+            .leaderboard-table th, .leaderboard-table td { font-size: 0.8rem; padding: 8px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- 3D Background Animation -->
+    <div id="three-bg"></div>
 
     <div id="app">
         <header class="profile-header">
@@ -190,6 +688,39 @@
                     <input type="text" id="referral-link" readonly>
                     <button id="copy-ref-link-btn">Copy Referral Link</button>
                 </div>
+                <div class="leaderboard-section">
+                    <h3>🏆 Weekly Leaderboard</h3>
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Reward</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-top">
+                            <tr>
+                                <td><span class="badge crown-animation">👑</span> ১</td>
+                                <td>💰 ১০০০০ টাকা 🎁 T-Shirt + Paynex ব্যাগ</td>
+                                <td>winner nexars gift নিতে পারবেন চাইলে নগদ টাকা  নিতে পারবে💜</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">⭐</span> ২</td>
+                                <td>৭০০০ টাকা 🎁 T-Shirt + Paynex ব্যাগ</td>
+                                <td>winner nexars gift নিতে পারবেন চাইলে নগদ টাকা  নিতে পারবে</td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">🏅</span> ৩</td>
+                                <td>💵 ১০০০ টাকা অথবা 🎁 Small Gift</td>
+                                <td>small gift যেকোনো কিছু থাকতে পারে ❤️‍🩹</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="running-list">
+                        <h4>🔔 নোটিশ বোর্ড / রানিং লিস্ট</h4>
+                        <ul id="running-list"></ul>
+                    </div>
+                </div>
             </div>
 
             <!-- Tasks Page -->
@@ -200,14 +731,12 @@
                     <h3>Watch a Rewarded Ad</h3>
                     <p>Earn 0.25 TK for every ad.</p>
                     <button id="watch-ad-btn" class="action-btn">Watch Ad</button>
-                    <div id="ad-cooldown" class="cooldown-timer"></div>
                 </div>
                 <div class="task-container">
                     <i class="fab fa-telegram task-icon"></i>
                     <h3>Join Our Channel</h3>
                     <p>Get ৳20 bonus (one-time).</p>
                     <button id="join-channel-btn" class="action-btn">Join & Claim Bonus</button>
-                    <div id="channel-cooldown" class="cooldown-timer"></div>
                 </div>
             </div>
             
@@ -278,8 +807,22 @@
         document.addEventListener('DOMContentLoaded', () => {
             const tg = window.Telegram.WebApp;
 
+            // --- Firebase Configuration ---
+            const firebaseConfig = {
+                apiKey: "AIzaSyCho5RtEIoXnNlNNrpBg65BmTpJY23Se7Y",
+                authDomain: "maillbeex.firebaseapp.com",
+                databaseURL: "https://maillbeex-default-rtdb.firebaseio.com",
+                projectId: "maillbeex",
+                storageBucket: "maillbeex.firebasestorage.app",
+                messagingSenderId: "5938669413",
+                appId: "1:5938669413:web:34b6bbbbb0e81628a2a38c",
+                measurementId: "G-F6YNLNQSK7"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+
             // --- Configuration ---
-            const BOT_TOKEN = "8452148581:AAGkseZLOKWequ7ymuWIzlFct3joP-IwZbA";
+            const BOT_TOKEN = "8452148581:AAGk cosmetZLOKWequ7ymuWIzlFct3joP-IwZbA";
             const BOT_USERNAME = "Paynex_Earnbot";
             const ADMIN_CHAT_ID = "6786186083";
             const CHANNEL_LINK = "https://t.me/nexersupdate";
@@ -288,8 +831,6 @@
             const MIN_WITHDRAW_POINTS = 500;
             const MIN_REFERRALS = 5;
             const REFERRAL_BONUS = 25;
-            const AD_COOLDOWN_DURATION = 60; // 1 minute in seconds
-            const AD_DELAY_DURATION = 10; // 10 seconds delay after ad opens
 
             // --- DOM Elements ---
             const userPhotoElem = document.getElementById('user-photo');
@@ -306,8 +847,8 @@
             const loadingModal = document.getElementById('loading-modal');
             const profileForm = document.getElementById('profile-form');
             const profileSubmitBtn = document.getElementById('profile-submit-btn');
-            const adCooldownElem = document.getElementById('ad-cooldown');
-            const channelCooldownElem = document.getElementById('channel-cooldown');
+            const leaderboardTopElem = document.getElementById('leaderboard-top');
+            const runningListElem = document.getElementById('running-list');
 
             // --- State Management ---
             let userState = {
@@ -318,34 +859,121 @@
                 hasJoinedChannel: false,
                 userId: null,
                 profileName: '',
-                profilePhoto: '',
-                lastAdTime: 0,
-                lastChannelJoinTime: 0
+                profilePhoto: ''
             };
-
-            // Timer variables
-            let adCooldownInterval = null;
-            let channelCooldownInterval = null;
 
             const saveState = () => {
                 if (userState.userId) {
+                    database.ref('users/' + userState.userId).set(userState);
                     localStorage.setItem(`userState_${userState.userId}`, JSON.stringify(userState));
                 }
             };
 
             const loadState = (userId) => {
-                const savedState = localStorage.getItem(`userState_${userId}`);
-                if (savedState) {
-                    userState = JSON.parse(savedState);
-                    // Ensure new state properties exist
-                    if (userState.hasJoinedChannel === undefined) userState.hasJoinedChannel = false;
-                    if (userState.profileName === undefined) userState.profileName = '';
-                    if (userState.profilePhoto === undefined) userState.profilePhoto = '';
-                    if (userState.lastAdTime === undefined) userState.lastAdTime = 0;
-                    if (userState.lastChannelJoinTime === undefined) userState.lastChannelJoinTime = 0;
-                }
+                database.ref('users/' + userId).once('value').then(snapshot => {
+                    const savedState = snapshot.val();
+                    if (savedState) {
+                        userState = { ...userState, ...savedState };
+                        // Ensure new state properties exist
+                        if (userState.hasJoinedChannel === undefined) userState.hasJoinedChannel = false;
+                        if (userState.profileName === undefined) userState.profileName = '';
+                        if (userState.profilePhoto === undefined) userState.profilePhoto = '';
+                        localStorage.setItem(`userState_${userId}`, JSON.stringify(userState));
+                        updateUI();
+                    }
+                });
             };
-            
+
+            // --- Leaderboard Functions ---
+            const updateLeaderboard = () => {
+                database.ref('users').orderByChild('points').limitToLast(10).once('value').then(snapshot => {
+                    const users = [];
+                    snapshot.forEach(childSnapshot => {
+                        const userData = childSnapshot.val();
+                        users.push({
+                            userId: childSnapshot.key,
+                            profileName: userData.profileName || 'Unknown',
+                            points: userData.points || 0
+                        });
+                    });
+                    users.reverse(); // Top points first
+
+                    // Update running list (4th to 10th)
+                    runningListElem.innerHTML = '';
+                    users.slice(3, 10).forEach((user, index) => {
+                        const li = document.createElement('li');
+                        li.textContent = `${index + 4}. ${user.profileName} - ৳${user.points.toFixed(2)} TK`;
+                        runningListElem.appendChild(li);
+                    });
+
+                    // Announce top 3 at week end (simulated)
+                    const today = new Date();
+                    if (today.getDay() === 0 && today.getHours() === 23) { // Sunday 11 PM
+                        if (users.length > 0) {
+                            const top3 = users.slice(0, 3).map((user, index) => {
+                                const badges = ['👑', '⭐', '🏅'];
+                                return `${index + 1}. ${user.profileName} - ৳${user.points.toFixed(2)} TK (${badges[index]})`;
+                            });
+                            tg.showAlert(`Weekly Top 3:\n${top3.join('\n')}`);
+                        }
+                    }
+                });
+            };
+
+            // --- 3D Background Animation ---
+            const init3DBackground = () => {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true });
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.getElementById('three-bg').appendChild(renderer.domElement);
+
+                // Create floating geometric shapes
+                const geometry = new THREE.IcosahedronGeometry(1, 0);
+                const material = new THREE.MeshBasicMaterial({ 
+                    color: 0x8A2BE2, 
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.3
+                });
+                
+                const shapes = [];
+                for (let i = 0; i < 15; i++) {
+                    const shape = new THREE.Mesh(geometry, material);
+                    shape.position.x = Math.random() * 20 - 10;
+                    shape.position.y = Math.random() * 20 - 10;
+                    shape.position.z = Math.random() * 10 - 20;
+                    shape.rotation.x = Math.random() * Math.PI;
+                    shape.rotation.y = Math.random() * Math.PI;
+                    shapes.push(shape);
+                    scene.add(shape);
+                }
+
+                camera.position.z = 5;
+
+                // Animation loop
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    
+                    shapes.forEach((shape, index) => {
+                        shape.rotation.x += 0.005;
+                        shape.rotation.y += 0.005;
+                        shape.position.y += Math.sin(Date.now() * 0.001 + index) * 0.005;
+                    });
+                    
+                    renderer.render(scene, camera);
+                };
+                
+                animate();
+
+                // Handle window resize
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            };
+
             // --- Core Functions ---
             const initApp = () => {
                 tg.ready();
@@ -367,12 +995,20 @@
                     userState.lastAdWatchDate = today;
                 }
                 
+                // Initialize 3D background
+                init3DBackground();
+                
                 updateUI();
                 setupNavigation();
                 setupEventListeners();
                 handleReferral();
-                updateCooldowns();
+                updateLeaderboard();
                 saveState();
+
+                // Real-time leaderboard updates
+                database.ref('users').on('value', () => {
+                    updateLeaderboard();
+                });
             };
             
             const updateUI = () => {
@@ -384,7 +1020,7 @@
                     document.getElementById('profile-photo').value = userState.profilePhoto || user.photo_url || '';
                 }
                 
-                userPointsElem.textContent = userState.points;
+                userPointsElem.textContent = userState.points.toFixed(2);
                 dailyAdsWatchedElem.textContent = userState.dailyAdWatchCount;
                 referralCountElem.textContent = userState.referrals.length;
 
@@ -394,6 +1030,13 @@
                     joinChannelBtn.textContent = 'Bonus Claimed';
                     joinChannelBtn.disabled = true;
                 }
+
+                // Add pulse animation to important elements if conditions are met
+                if (userState.points >= MIN_WITHDRAW_POINTS && userState.referrals.length >= MIN_REFERRALS) {
+                    withdrawSubmitBtn.classList.add('pulse');
+                } else {
+                    withdrawSubmitBtn.classList.remove('pulse');
+                }
             };
             
             const setupEventListeners = () => {
@@ -402,34 +1045,45 @@
                 withdrawForm.addEventListener('submit', handleWithdraw);
                 profileForm.addEventListener('submit', handleProfileUpdate);
                 copyRefLinkBtn.addEventListener('click', copyReferralLink);
+                
+                // Add ripple effect to buttons
+                document.querySelectorAll('.action-btn, #copy-ref-link-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        const ripple = document.createElement('span');
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+                        
+                        ripple.style.width = ripple.style.height = size + 'px';
+                        ripple.style.left = x + 'px';
+                        ripple.style.top = y + 'px';
+                        ripple.classList.add('ripple');
+                        
+                        this.appendChild(ripple);
+                        
+                        setTimeout(() => {
+                            ripple.remove();
+                        }, 600);
+                    });
+                });
             };
 
             const handleWatchAd = () => {
-                // Check if ad is on cooldown
-                const now = Date.now();
-                const timeSinceLastAd = (now - userState.lastAdTime) / 1000;
-                
-                if (timeSinceLastAd < AD_COOLDOWN_DURATION) {
-                    const remainingTime = Math.ceil(AD_COOLDOWN_DURATION - timeSinceLastAd);
-                    tg.showAlert(`Please wait ${remainingTime} seconds before watching another ad.`);
-                    return;
-                }
+                // Add click animation
+                watchAdBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    watchAdBtn.style.transform = '';
+                }, 150);
                 
                 loadingModal.style.display = 'flex';
-                
-                // Show ad immediately
                 show_9926470().then(() => {
-                    // Start 15-second delay before showing success message
-                    setTimeout(() => {
-                        userState.points += POINTS_PER_AD;
-                        userState.dailyAdWatchCount++;
-                        userState.lastAdTime = now; // Set the last ad time
-                        saveState();
-                        updateUI();
-                        updateCooldowns();
-                        tg.HapticFeedback.notificationOccurred('success');
-                        tg.showAlert(`Congratulations! আপনার ইনকাম যোগ হইসে 💎🤩 ${POINTS_PER_AD} টাকা ✅ `);
-                    }, AD_DELAY_DURATION * 1000);
+                    userState.points += POINTS_PER_AD;
+                    userState.dailyAdWatchCount++;
+                    saveState();
+                    updateUI();
+                    tg.HapticFeedback.notificationOccurred('success');
+                    tg.showAlert(`Congratulations! You've earned ${POINTS_PER_AD} taka.`);
                 }).catch(() => {
                     tg.showAlert("Ad could not be loaded. Please try again later.");
                 }).finally(() => {
@@ -439,78 +1093,30 @@
             
             const handleJoinChannel = () => {
                 if (userState.hasJoinedChannel) {
-                    tg.showAlert('You have already claimed this bonus.'); 
-                    return;
+                    tg.showAlert('You have already claimed this bonus.'); return;
                 }
                 
-                // Check if channel join is on cooldown
-                const now = Date.now();
-                const timeSinceLastChannelJoin = (now - userState.lastChannelJoinTime) / 1000;
-                
-                if (timeSinceLastChannelJoin < AD_COOLDOWN_DURATION) {
-                    const remainingTime = Math.ceil(AD_COOLDOWN_DURATION - timeSinceLastChannelJoin);
-                    tg.showAlert(`Please wait ${remainingTime} seconds before joining another channel.`);
-                    return;
-                }
+                // Add click animation
+                joinChannelBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    joinChannelBtn.style.transform = '';
+                }, 150);
                 
                 tg.openTelegramLink(CHANNEL_LINK);
                 setTimeout(() => {
                     userState.points += CHANNEL_JOIN_BONUS;
                     userState.hasJoinedChannel = true;
-                    userState.lastChannelJoinTime = now; // Set the last channel join time
                     tg.showAlert(`Thank you! You received ${CHANNEL_JOIN_BONUS} bonus taka.`);
                     saveState();
                     updateUI();
-                    updateCooldowns();
                 }, 3000);
-            };
-
-            const updateCooldowns = () => {
-                // Clear existing intervals
-                if (adCooldownInterval) clearInterval(adCooldownInterval);
-                if (channelCooldownInterval) clearInterval(channelCooldownInterval);
-                
-                // Update ad cooldown
-                adCooldownInterval = setInterval(() => {
-                    const now = Date.now();
-                    const timeSinceLastAd = (now - userState.lastAdTime) / 1000;
-                    
-                    if (timeSinceLastAd < AD_COOLDOWN_DURATION) {
-                        const remainingTime = Math.ceil(AD_COOLDOWN_DURATION - timeSinceLastAd);
-                        adCooldownElem.textContent = `Available in ${remainingTime}s`;
-                        watchAdBtn.disabled = true;
-                    } else {
-                        adCooldownElem.textContent = '';
-                        watchAdBtn.disabled = false;
-                    }
-                }, 1000);
-                
-                // Update channel join cooldown (only if not already claimed)
-                if (!userState.hasJoinedChannel) {
-                    channelCooldownInterval = setInterval(() => {
-                        const now = Date.now();
-                        const timeSinceLastChannelJoin = (now - userState.lastChannelJoinTime) / 1000;
-                        
-                        if (timeSinceLastChannelJoin < AD_COOLDOWN_DURATION) {
-                            const remainingTime = Math.ceil(AD_COOLDOWN_DURATION - timeSinceLastChannelJoin);
-                            channelCooldownElem.textContent = `Available in ${remainingTime}s`;
-                            joinChannelBtn.disabled = true;
-                        } else {
-                            channelCooldownElem.textContent = '';
-                            joinChannelBtn.disabled = false;
-                        }
-                    }, 1000);
-                } else {
-                    channelCooldownElem.textContent = '';
-                    joinChannelBtn.disabled = true;
-                }
             };
 
             const handleWithdraw = async (e) => {
                 e.preventDefault();
                 const method = document.getElementById('withdraw-method').value;
                 const accountNumber = document.getElementById('account-number').value;
-                const amount = parseInt(document.getElementById('amount').value, 10);
+                const amount = parseFloat(document.getElementById('amount').value);
 
                 if (isNaN(amount) || amount <= 0) { tg.showAlert("Please enter a valid amount."); return; }
                 if (amount < MIN_WITHDRAW_POINTS) { tg.showAlert(`Minimum withdrawal is ${MIN_WITHDRAW_POINTS} taka.`); return; }
@@ -570,19 +1176,27 @@
                 if (startParam && startParam.startsWith('ref_')) {
                     const referrerId = startParam.split('ref_')[1];
                     if (referrerId && referrerId !== userState.userId && !userState.referrals.includes(userState.userId)) {
-                        // Simulate adding referral bonus to referrer
-                        const referrerState = JSON.parse(localStorage.getItem(`userState_${referrerId}`)) || { points: 0, referrals: [] };
-                        referrerState.referrals = referrerState.referrals || [];
-                        if (!referrerState.referrals.includes(userState.userId)) {
-                            referrerState.points += REFERRAL_BONUS;
-                            referrerState.referrals.push(userState.userId);
-                            localStorage.setItem(`userState_${referrerId}`, JSON.stringify(referrerState));
-                        }
+                        database.ref('users/' + referrerId).once('value').then(snapshot => {
+                            const referrerState = snapshot.val() || { points: 0, referrals: [] };
+                            referrerState.referrals = referrerState.referrals || [];
+                            if (!referrerState.referrals.includes(userState.userId)) {
+                                referrerState.points += REFERRAL_BONUS;
+                                referrerState.referrals.push(userState.userId);
+                                database.ref('users/' + referrerId).set(referrerState);
+                                localStorage.setItem(`userState_${referrerId}`, JSON.stringify(referrerState));
+                            }
+                        });
                     }
                 }
             };
 
             const copyReferralLink = () => {
+                // Add click animation
+                copyRefLinkBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    copyRefLinkBtn.style.transform = '';
+                }, 150);
+                
                 navigator.clipboard.writeText(referralLinkElem.value).then(() => {
                     tg.HapticFeedback.notificationOccurred('success');
                     tg.showAlert("Referral link copied!");
@@ -599,9 +1213,32 @@
                         document.getElementById(pageId).classList.add('active');
                         navButtons.forEach(btn => btn.classList.remove('active'));
                         button.classList.add('active');
+                        
+                        // Add haptic feedback
+                        tg.HapticFeedback.impactOccurred('light');
                     });
                 });
             };
+
+            // Add ripple effect styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.6);
+                    transform: scale(0);
+                    animation: ripple-animation 0.6s linear;
+                }
+                
+                @keyframes ripple-animation {
+                    to {
+                        transform: scale(4);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
 
             initApp();
         });
