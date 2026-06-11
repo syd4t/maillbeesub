@@ -3,204 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saynex - AI Music Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title> </title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+        :root {
+            --bg-dark: #080711;
+            --card-bg: #141226;
+            --primary: #8a2be2;
+            --accent: #ff007f;
+            --text-light: #f5f5fa;
+            --text-muted: #7e7a93;
+            --nav-bg: rgba(12, 10, 26, 0.96);
+            --verified-blue: #1877F2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Hind Siliguri', sans-serif;
-            background: #0b0e14;
-            color: #e2e8f0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif;
+            padding-bottom: 85px;
         }
 
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-gradient {
-            background: linear-gradient(90deg, #6366f1, #a855f7);
-            transition: all 0.3s ease;
-        }
-
-        .btn-gradient:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+        header {
+            background: linear-gradient(90deg, #160a2b, #2b093a);
+            padding: 16px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            position: sticky;
+            top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            letter-spacing: 0.5px;
+        }
+
+        /* Live Indicator Badge Style */
+        .live-badge {
+            font-size: 0.8rem;
+            color: #00ff88;
+            margin-top: 6px;
+            display: flex;
             align-items: center;
             justify-content: center;
+            gap: 6px;
+            font-weight: 400;
+        }
+        @keyframes pulse { 0% { opacity: 0.4; } 100% { opacity: 1; } }
+        .live-dot { animation: pulse 0.8s infinite alternate; font-size: 0.6rem; color: #00ff88; }
+
+        .verified-tick {
+            color: white; background: var(--verified-blue); border-radius: 50%;
+            font-size: 0.75rem; padding: 3px; margin-left: 4px; display: inline-flex;
+            align-items: center; justify-content: center; width: 14px; height: 14px;
         }
 
-        .lyrics-box {
-            max-height: 400px;
-            overflow-y: auto;
+        .view-section { display: none; animation: fadeIn 0.2s ease-in; padding: 15px; max-width: 600px; margin: 0 auto; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Voting styling */
+        .vote-box {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(255, 0, 127, 0.1));
+            border-radius: 14px; padding: 18px; margin-bottom: 20px; border: 1px solid rgba(255, 0, 127, 0.2);
         }
+        .vote-btn {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); color: white;
+            padding: 12px; width: 100%; border-radius: 10px; margin-top: 10px; cursor: pointer;
+            display: flex; justify-content: space-between; font-weight: 600; font-size: 0.95rem;
+        }
+        .vote-btn.voted { border-color: var(--accent); background: rgba(255, 0, 127, 0.25); box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); }
+
+        /* Posts system */
+        .post-card {
+            background: var(--card-bg); border-radius: 14px; padding: 16px; margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .user-dp { width: 42px; height: 42px; border-radius: 50%; background: #3d2b70; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; border: 1px solid var(--primary); }
+        .post-content { font-size: 0.98rem; line-height: 1.6; color: #e1e0eb; margin-bottom: 14px; }
+        
+        .post-stats { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .post-actions { display: flex; justify-content: space-around; padding-top: 10px; }
+        .action-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; font-weight: 600; }
+        .action-btn:hover { color: var(--accent); }
+
+        /* Group Chat Rooms Styling */
+        .group-item {
+            background: var(--card-bg); border-radius: 14px; padding: 16px; margin-bottom: 12px;
+            display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05);
+        }
+        .group-details h4 { font-size: 1.05rem; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+        .group-meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 12px; }
+        .group-meta span i { color: var(--primary); margin-right: 4px; }
+        .join-req-btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent)); color: white; border: none;
+            padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; cursor: pointer;
+        }
+
+        /* Earnings & Mod System */
+        .earn-card { background: linear-gradient(135deg, #1f0633, #431366); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px; }
+        .balance { font-size: 2.6rem; font-weight: 700; margin: 12px 0; color: #00ff88; text-shadow: 0 0 10px rgba(0,255,136,0.2); }
+        .mod-box { background: rgba(255,255,255,0.03); border-radius: 12px; padding: 15px; border-left: 4px solid var(--accent); text-align: left; margin-top: 15px; cursor: pointer; }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg);
+            backdrop-filter: blur(12px); display: flex; justify-content: space-around; padding: 14px 0;
+            border-top: 1px solid rgba(255,255,255,0.08); z-index: 100;
+        }
+        .nav-item { color: var(--text-muted); text-align: center; font-size: 0.82rem; cursor: pointer; display: flex; flex-direction: column; gap: 4px; align-items: center; font-weight: 600; }
+        .nav-item i { font-size: 1.35rem; }
+        .nav-item.active { color: var(--accent); }
+
+        /* Login Modal Form */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 15px; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 18px; width: 100%; max-width: 360px; border: 1px solid var(--primary); text-align: center; box-shadow: 0 0 30px rgba(138,43,226,0.3); }
+        .modal-content input { width: 100%; padding: 12px 15px; margin-bottom: 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(0,0,0,0.3); color: white; outline: none; font-size: 0.95rem; }
+        .submit-btn { width: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); color: white; padding: 13px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+        .close-modal { margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; text-decoration: underline; display: block; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body>
 
-    <div class="max-w-2xl mx-auto">
-        <!-- Logo Section -->
-        <div class="text-center mb-8">
-            <div class="inline-block p-4 rounded-full bg-indigo-500/20 mb-4">
-                <i class="fas fa-compact-disc text-5xl text-indigo-500 animate-spin-slow"></i>
-            </div>
-            <h1 class="text-4xl font-bold tracking-widest text-white uppercase">Saynex</h1>
-            <p class="text-slate-400 mt-2">আপনার নামের গান, আপনার মনের মতো</p>
+    <header>
+        BEAN 
+        <div class="live-badge">
+            <i class="fa-solid fa-circle live-dot"></i> BTS Army Elite Network <strong id="user-live-count"></strong>
+        </div>
+    </header>
+
+    <div id="home-sec" class="view-section active">
+        <div class="vote-box">
+            <h3 style="font-size: 1.1rem; margin-bottom: 4px;"><i class="fa-solid fa-square-poll-vertical" style="color:var(--accent);"></i> Daily Mega Battle</h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">আজকের সেরা ড্যান্সার কে? ভোট দিন লগইন ছাড়াই!</p>
+            <button class="vote-btn" onclick="castVote(this)">Jungkook (Jeon) <span class="v-pct"></span></button>
+            <button class="vote-btn" onclick="castVote(this)">Jimin (Park) <span class="v-pct"></span></button>
+            <button class="vote-btn" onclick="castVote(this)">J-Hope (Jung) <span class="v-pct"></span></button>
         </div>
 
-        <!-- Input Section -->
-        <div class="glass-panel p-6 rounded-3xl shadow-2xl">
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm text-slate-400 mb-1">নাম লিখুন</label>
-                    <input type="text" id="userName" placeholder="যেমন: আরিয়ান" 
-                        class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
-                </div>
+        <div id="dynamic-feed"></div>
+    </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm text-slate-400 mb-1">ধরণ (Category)</label>
-                        <select id="category" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white">
-                            <option value="romantic">রোমান্টিক ❤️</option>
-                            <option value="roast">রোস্ট (Roast) 🔥</option>
-                            <option value="funny">ফানি (Funny) 😂</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm text-slate-400 mb-1">লিঙ্গ (Gender)</label>
-                        <select id="gender" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white">
-                            <option value="male">ছেলে (Male)</option>
-                            <option value="female">মেয়ে (Female)</option>
-                        </select>
-                    </div>
+    <div id="chat-sec" class="view-section">
+        <h3 style="margin-bottom: 5px;"><i class="fa-solid fa-users"></i> Elite Army Rooms</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 18px;">গ্রুপ চ্যাটগুলো সুরক্ষিত ও প্রাইভেট। যুক্ত হতে লগইন করে রিকোয়েস্ট পাঠান।</p>
+        
+        <div class="group-item">
+            <div class="group-details">
+                <h4>💜 BTS Global Army Fanbase <i class="fa-solid fa-circle-check verified-tick"></i></h4>
+                <div class="group-meta">
+                    <span><i class="fa-solid fa-user-group"></i> ৫.৪ লক্ষ মেম্বার</span>
+                    <span><i class="fa-solid fa-circle" style="color:#00ff88; font-size:0.6rem;"></i> ৪২K একটিভ</span>
                 </div>
-
-                <button onclick="generateLongLyrics()" class="w-full btn-gradient py-4 rounded-xl font-bold text-lg mt-4 flex items-center justify-center gap-2">
-                    <i class="fas fa-wand-sparkles"></i> লিরিক্স তৈরী করুন
-                </button>
             </div>
+            <button class="join-req-btn" onclick="requireLogin('এই সিক্রেট গ্রুপে জয়েন রিকোয়েস্ট পাঠাতে লগইন বাধ্যতামূলক!')">Join</button>
+        </div>
 
-            <!-- Lyrics Display Area -->
-            <div id="outputArea" class="hidden mt-8 pt-6 border-t border-slate-700">
-                <div class="lyrics-box bg-black/30 p-6 rounded-2xl text-center leading-loose text-lg italic text-indigo-100" id="lyricsText">
-                    <!-- Lyrics appear here -->
+        <div class="group-item">
+            <div class="group-details">
+                <h4>🇧🇩 Bangladesh BTS Squad (Official)</h4>
+                <div class="group-meta">
+                    <span><i class="fa-solid fa-user-group"></i> ২.৮ লক্ষ মেম্বার</span>
+                    <span><i class="fa-solid fa-circle" style="color:#00ff88; font-size:0.6rem;"></i> ১২K একটিভ</span>
                 </div>
-                
-                <button onclick="showPayment()" class="w-full bg-green-600 hover:bg-green-500 py-4 rounded-xl font-bold text-lg mt-6 flex items-center justify-center gap-2 transition-all">
-                    পূর্ণাঙ্গ গান তৈরী করুণ 👉 ২০৳ Pay
-                </button>
             </div>
+            <button class="join-req-btn" onclick="requireLogin('গ্রুপে জয়েন রিকোয়েস্ট পাঠাতে লগইন করুন')">Join</button>
+        </div>
+
+        <div class="group-item">
+            <div class="group-details">
+                <h4>🔥 Jeon Jungkook Global Stan Room</h4>
+                <div class="group-meta">
+                    <span><i class="fa-solid fa-user-group"></i> ১.৯ লক্ষ মেম্বার</span>
+                    <span><i class="fa-solid fa-circle" style="color:#00ff88; font-size:0.6rem;"></i> ৯.৫K একটিভ</span>
+                </div>
+            </div>
+            <button class="join-req-btn" onclick="requireLogin('গ্রুপে জয়েন রিকোয়েস্ট পাঠাতে লগইন করুন')">Join</button>
+        </div>
+
+        <div class="group-item">
+            <div class="group-details">
+                <h4>🎨 Taehyung Aesthetic Studio</h4>
+                <div class="group-meta">
+                    <span><i class="fa-solid fa-user-group"></i> ৯৮.৫ হাজার মেম্বার</span>
+                    <span><i class="fa-solid fa-circle" style="color:#00ff88; font-size:0.6rem;"></i> ৩K একটিভ</span>
+                </div>
+            </div>
+            <button class="join-req-btn" onclick="requireLogin('গ্রুপে জয়েন রিকোয়েস্ট পাঠাতে লগইন করুন')">Join</button>
         </div>
     </div>
 
-    <!-- Payment Modal -->
-    <div id="payModal" class="modal px-4">
-        <div class="glass-panel w-full max-w-md p-8 rounded-3xl relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400"><i class="fas fa-times"></i></button>
-            
-            <h2 class="text-2xl font-bold text-center mb-4">পেমেন্ট সম্পন্ন করুন</h2>
-            
-            <div class="bg-indigo-500/10 p-4 rounded-xl text-sm text-indigo-300 mb-6 border border-indigo-500/20">
-                <i class="fas fa-info-circle mr-2"></i> আমাদের সার্ভার খরচ এবং AI মিউজিক প্রসেসিং-এর জন্য এই ২০ টাকা চার্জ নেওয়া হচ্ছে। পেমেন্ট করার ৫ মিনিটের মধ্যে আপনার গানটি ইমেইল বা ইনবক্সে পৌঁছে যাবে।
-            </div>
+    <div id="earn-sec" class="view-section">
+        <div class="earn-card">
+            <h3>Your Earnings Dashboard</h3>
+            <div class="balance">৳ ০.০০</div>
+            <p style="font-size: 0.85rem; color: #eaeaf0;">টাস্ক কমপ্লিট করুন এবং সরাসরি বিকাশ/নগদে টাকা তুলুন।</p>
+            <button class="earn-btn" style="background:white; color:#431366; width:100%; border:none; padding:12px; border-radius:25px; margin-top:12px; font-weight:700; cursor:pointer;" onclick="requireLogin('আর্নিং ড্যাশবোর্ড আনলক করতে লগইন করুন!')">Start Earning</button>
+        </div>
 
-            <div class="text-center mb-6">
-                <p class="text-sm text-slate-400 mb-2">এই নাম্বারে ২০ টাকা সেন্ড মানি করুন:</p>
-                <div class="flex items-center justify-center gap-2 bg-slate-900 p-3 rounded-xl border border-slate-700">
-                    <span class="text-xl font-mono font-bold text-white">01929793487</span>
-                    <button onclick="copyNumber()" class="text-indigo-400 hover:text-white p-2">
-                        <i class="fas fa-copy"></i>
-                    </button>
-                </div>
-                <p id="copyMsg" class="text-xs text-green-500 mt-1 hidden">নাম্বারটি কপি হয়েছে!</p>
-            </div>
+        <h3 style="margin: 20px 0 10px 0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved" style="color:var(--accent);"></i> Become a Paid Moderator</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">সাইটে প্রতিদিন কন্টেন্ট আপলোড, চ্যাট ফিল্টার এবং নতুন মেম্বার অ্যাপ্রুভ করে প্রতি সপ্তাহে ইনকাম করুন।</p>
+        
+        <div class="mod-box" onclick="requireLogin('মডারেটর লাইসেন্স এর জন্য আবেদন করতে আগে লগইন করুন')">
+            <h4 style="font-size:0.95rem; color:white; margin-bottom:4px;">🛡️ Senior Moderator Application</h4>
+            <p style="font-size:0.8rem; color:var(--text-muted);">দায়িত্ব: প্রতিদিন মিনিমাম ৫টি ট্রেন্ডিং পোস্ট এবং গ্রুপ মডারেশন করা।</p>
+            <span style="font-size:0.75rem; color:#00ff88; font-weight:700; display:block; margin-top:8px;">ভাতা: ৳ ১৫০০ - ৳ ৩৫০০ / প্রতি সপ্তাহ ➔</span>
+        </div>
 
-            <div class="flex justify-center gap-4 mb-6">
-                <img src="https://www.logo.wine/a/logo/BKash/BKash-Logo.wine.svg" class="h-10 bg-white rounded p-1 cursor-pointer">
-                <img src="https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png" class="h-10 bg-white rounded p-1 cursor-pointer">
-                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Rocket_logo_limited.svg/1200px-Rocket_logo_limited.svg.png" class="h-10 bg-white rounded p-1 cursor-pointer">
-            </div>
-
-            <div class="space-y-4">
-                <input type="number" id="payNumber" placeholder="যে নাম্বার থেকে টাকা পাঠিয়েছেন সেটি দিন" 
-                    class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white outline-none focus:border-indigo-500">
-                <button onclick="verifyPayment()" class="w-full bg-indigo-600 py-3 rounded-xl font-bold">ভেরিফাই পেমেন্ট</button>
-                <p id="errorMsg" class="text-red-500 text-sm text-center hidden">পেমেন্ট সফল হয়নি। সঠিক নাম্বার দিন অথবা পুনরায় চেষ্টা করুন।</p>
-            </div>
+        <div class="mod-box" style="border-left-color: var(--primary);" onclick="requireLogin('মডারেটর লাইসেন্স এর জন্য আবেদন করতে আগে লগইন করুন')">
+            <h4 style="font-size:0.95rem; color:white; margin-bottom:4px;">✍️ Content Publisher (BTS Niche)</h4>
+            <p style="font-size:0.8rem; color:var(--text-muted);">দায়িত্ব: বিভিন্ন সোশ্যাল মিডিয়া থেকে লেটেস্ট কোরিয়ান নিউজ আপডেট সাইটে শেয়ার করা।</p>
+            <span style="font-size:0.75rem; color:#00ff88; font-weight:700; display:block; margin-top:8px;">ভাতা: প্রতি পোস্টে ৳ ১০ বোনাস ➔</span>
         </div>
     </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home-sec', this)"><i class="fa-solid fa-house"></i> Home</div>
+        <div class="nav-item" onclick="switchTab('chat-sec', this)"><i class="fa-solid fa-users"></i> Groups</div>
+        <div class="nav-item" onclick="switchTab('earn-sec', this)"><i class="fa-solid fa-wallet"></i> Earnings</div>
+        <div class="nav-item" onclick="requireLogin('আপনার প্রোফাইল এডিট করতে নাম ও নাম্বার দিয়ে লগইন করুন')"><i class="fa-solid fa-circle-user"></i> Profile</div>
+    </div>
+
+    <div class="modal-overlay" id="loginFormModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 6px; color: var(--accent); font-size:1.4rem;">Create Account / Login</h2>
+            <p id="modalMsg" style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 20px;">ইনকাম শুরু করতে এবং গ্রুপে যোগ দিতে সঠিক তথ্য দিন</p>
+            
+            <input type="text" id="regName" placeholder="আপনার পুরো নাম লিখুন" required>
+            <input type="tel" id="regPhone" placeholder="মোবাইল নাম্বার (01XXXXXXXXX)" required>
+            <input type="password" id="regPass" placeholder="একটি স্ট্রং পাসওয়ার্ড দিন" required>
+            
+            <button class="submit-btn" onclick="handleAuthSubmit()">Submit & Continue</button>
+            <span class="close-modal" onclick="closeModal()">লগইন ছাড়াই দেখতে চাই</span>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
     <script>
-        function generateLongLyrics() {
-            const name = document.getElementById('userName').value.trim();
-            const category = document.getElementById('category').value;
-            const gender = document.getElementById('gender').value;
+        // --- ফায়ারবেস কনফিগ এবং লাইভ ট্র্যাকিং লজিক ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCho5RtEIoXnNlNNrpBg65BmTpJY23Se7Y",
+            authDomain: "maillbeex.firebaseapp.com",
+            databaseURL: "https://maillbeex-default-rtdb.firebaseio.com",
+            projectId: "maillbeex",
+            storageBucket: "maillbeex.firebasestorage.app",
+            messagingSenderId: "5938669413",
+            appId: "1:5938669413:web:34b6bbbbb0e81628a2a38c",
+            measurementId: "G-F6YNLNQSK7"
+        };
 
-            if (!name) {
-                alert("নাম দিতে হবে!");
+        // Firebase ইনিশিয়েট করা
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // রিয়েল-টাইম অনলাইন কানেকশন হ্যান্ডলার
+        const onlineRef = db.ref('site_analytics/online_users').push();
+        const connectedRef = db.ref('.info/connected');
+
+        connectedRef.on('value', (snap) => {
+            if (snap.val() === true) {
+                // ইউজার কানেক্টেড হলে সার্ভার টাইম স্ট্যাম্প সেভ হবে
+                onlineRef.set(firebase.database.ServerValue.TIMESTAMP);
+                // ট্যাব বা ব্রাউজার কেটে দিলে ডাটাবেজ থেকে অটোমেটিক মুছে যাবে
+                onlineRef.onDisconnect().remove();
+            }
+        });
+
+        // ইউজারের স্ক্রিনে রিয়েল-টাইম লাইভ কাউন্ট দেখানো
+        db.ref('site_analytics/online_users').on('value', (snapshot) => {
+            const liveCount = snapshot.numChildren();
+            document.getElementById('user-live-count').innerText = liveCount;
+        });
+
+        // মোট ভিজিটরের সংখ্যা ১ করে বাড়ানো (Lifetime Traffic)
+        db.ref('site_analytics/total_visits').transaction((current_value) => {
+            return (current_value || 0) + 1;
+        });
+
+
+        // --- ১০৫টি অটোমেটিক মেগা ফিড কন্টেন্ট ডাটাবেজ ---
+        const contentTemplates = [
+            { name: "Anika Ahmed", text: "জংকুকের 'Seven' গানটা এখনো লুপে কে কে শুনো? বিলবোর্ডের রেকর্ড ভাঙার পর ওর জনপ্রিয়তা আকাশচুম্বী! 😭💜" },
+            { name: "Minhajul Islam", text: "Taehyung এর নতুন কফি শপের ফটোশুটটা দেখছেন কেউ? ওই ইউনিক লুক আর হেয়ারস্টাইল শুধু ওরেই মানায়! ✨" },
+            { name: "Hridoy Khan", text: "আজকে সুগার পুরানো কনসার্টের একটা র‍্যাপ পারফরম্যান্স দেখছিলাম। ভাইরে ভাই, লিরিক্সের গভীরতা জাস্ট চোখ দিয়ে পানি এনে দেয়।" },
+            { name: "Nusrat Jahan", text: "জিমিনের পারফেক্ট ড্যান্স মুভস এর রহস্য কী? ও যখন স্টেজে মুভ করে মনে হয় বাতাসে ভাসছে! Truly gifted. 😍" },
+            { name: "Sayed Al Hasan", text: "জিনের আর্মি ট্রেইনিং শেষ করে ব্যাক করার পর ওর চেহারার গ্লো আরও ডাবল হয়ে গেছে! Our Worldwide Handsome is back!" },
+            { name: "Sadia Rahman", text: "জে-হোপ এর স্ট্রিট ড্যান্সের একটা ওল্ড ক্লিপ ক্লিপ পেলাম ইনস্টাগ্রামে। হোপ অন দ্য স্ট্রিট আসলেই বেস্ট ড্যান্স ডকুমেন্টারি।" },
+            { name: "Tahsin Ahmed", text: "আরএম এর লিরিসিজম আর লিডারশিপ নিয়ে নতুন করে কিছু বলার নাই। হি ইজ দ্য রিয়েল ব্যাকবোন অফ বিটিএস। 👑" },
+            { name: "Fariha Sultana", text: "কোরিয়ান ড্রামাগুলোতে ইদানীং বিটিএস মেম্বারদের ওএসটি (OST) গুলা জাস্ট ম্যাজিকের মতো কাজ করে। বিশেষ করে ভি এর ভয়েস!" }
+        ];
+
+        function getRandomStat(min, max, suffix = "") {
+            let num = Math.floor(Math.random() * (max - min + 1)) + min;
+            return (num / 1000).toFixed(1) + "K" + suffix;
+        }
+
+        // ১০৫টি পোস্টের মেগা লুপ জেনারেটর
+        function initMegaFeed() {
+            const feedContainer = document.getElementById('dynamic-feed');
+            let postHTML = "";
+
+            for (let i = 1; i <= 105; i++) {
+                const template = contentTemplates[(i - 1) % contentTemplates.length];
+                const likes = getRandomStat(15000, 95000);
+                const comments = getRandomStat(2000, 18000);
+                const shares = getRandomStat(5000, 25000);
+
+                postHTML += `
+                    <div class="post-card">
+                        <div class="post-header" onclick="requireLogin('প্রোফাইল ভিউ করতে আগে লগইন ফর্ম ফিলাপ করুন')">
+                            <div class="user-dp">${template.name.charAt(0)}</div>
+                            <div>
+                                <h4 style="font-size: 0.98rem;">${template.name} <span class="verified-tick"><i class="fa-solid fa-check"></i></span></h4>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);">${i * 3} মিনিট আগে</span>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            ${template.text} #BTS #ARMY_Community_Saynex
+                        </div>
+                        <div class="post-stats">
+                            <span><i class="fa-regular fa-heart" style="color:var(--accent);"></i> ${likes} জন রিয়্যাক্ট করেছে</span>
+                            <span>${comments} কমেন্টস • ${shares} শেয়ার</span>
+                        </div>
+                        <div class="post-actions">
+                            <button class="action-btn" onclick="likePost(this)"><i class="fa-regular fa-thumbs-up"></i> Like</button>
+                            <button class="action-btn" onclick="requireLogin('পাবলিক কমেন্ট বক্সে আপনার মন্তব্য লিখতে লগইন করুন')"><i class="fa-regular fa-comment"></i> Comment</button>
+                            <button class="action-btn" onclick="shareAlert()"><i class="fa-regular fa-share-from-square"></i> Share</button>
+                        </div>
+                    </div>
+                `;
+            }
+            if(feedContainer) feedContainer.innerHTML = postHTML;
+        }
+
+        // উইন্ডো লোড হলে রান হবে
+        window.onload = initMegaFeed;
+
+        // ট্যাব কন্ট্রোলার
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // লগইন পপআপ সিস্টেম
+        const loginModal = document.getElementById('loginFormModal');
+        const modalMsg = document.getElementById('modalMsg');
+
+        function requireLogin(message) {
+            modalMsg.innerText = message;
+            loginModal.style.display = 'flex';
+        }
+        function closeModal() {
+            loginModal.style.display = 'none';
+        }
+
+        function handleAuthSubmit() {
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+
+            if(name === "" || phone === "" || pass === "") {
+                alert("দয়া করে নাম, নাম্বার এবং পাসওয়ার্ডের সবগুলো বক্স সঠিক তথ্য দিয়ে পূরণ করুন।");
                 return;
             }
+            alert(`ধন্যবাদ ${name}! আপনার অ্যাকাউন্ট ভেরিফিকেশন পেন্ডিংয়ে আছে। মডারেটর এবং আর্নিং ড্যাশবোর্ড ২৪ ঘণ্টার মধ্যে একটিভ হবে।`);
+            closeModal();
+        }
 
-            let song = "";
-            
-            if(category === 'romantic') {
-                song = `(Verse 1)\nনীল আকাশে ঐ রূপালি চাঁদ হাসে,\n${name} তোমার মায়ায় মনটা শুধু ভাসে।\nহৃদয় গহীনে সুর যে ঝরছে আজ,\nতুমি যে আমার স্বপ্নের সেই রাজ।\n\n(Chorus)\nও ${name}, তুমি হীনা জীবন ধূসর মরু,\nতোমার ছায়ায় আমি হতে চাই এক তরু।\nপ্রতিটি নিশ্বাসে ডাকি শুধু তোমাকে,\nরাখবো তোমায় আমি মনের বাম পাশে।\n\n(Verse 2)\nরঙিন প্রজাপতি ডানা মেলে ওই দূরে,\nতোমার স্মৃতিরা বাজে মোর গানের সুরে।\nতোমার ওই চাহনি, ঐ মিষ্টি হাসি,\nজানি আমি তোমাকে কতোটা ভালোবাসি।\n\n(Chorus 2)\nভালোবাসি আমি তোমার মায়াবী চোখ,\nহোক না শত বাধা, হোক না শত শোক।\n${name} তুমি ছাড়া আমি বড় একা,\nকবে হবে বলো তোমার সাথে দেখা?`;
-            } else if(category === 'roast') {
-                song = `(Intro)\nশোনো শোনো দুনিয়াবাসী এক আজব কাহিনী,\n${name}-এর মতো পঁচাল আর কাউকে দেখিনি!\nনিজেকে ভাবে হিরো, আসলে জিরো সে,\nসবাই তাকে দেখে শুধু হাসাহাসি করে যে।\n\n(Verse 1)\nদিনের বেলা ঘুমায় আর রাতে করে আড্ডা,\nপকেটে নাই টাকা, তবু দেখায় কতো পাড্ডা!\n${name} যখন চলে পথে, কুকুররা সব পালায়,\nনিজের স্টাইল নিয়ে নিজেই আছে ঝামেলায়।\n\n(Chorus)\nও ${name}, একটু তো মানুষ হও তুমি,\nতোমার বুদ্ধিতে হাসছে এই মরুভূমি।\nবেশি হিরোগিরি কোরো না আর ভাই/বোন,\nআয়নায় নিজের চেহারা দেখে হয়ে যাও মৌন।\n\n(Verse 2)\nকথায় কাজে মিল নেই, নেই কোনো জ্ঞান,\nনিজেরে মনে করে বিশাল এক বড় ম্যান।\n${name} নামের এই আজব প্রাণীটা,\nভুল করেও খাবে না কারো কোনো বকুনিটা!`;
+        // লাইক ইন্টারঅ্যাকশন
+        function likePost(btn) {
+            if(!btn.classList.contains('liked')) {
+                btn.style.color = 'var(--accent)';
+                btn.innerHTML = `<i class="fa-solid fa-thumbs-up"></i> Liked`;
+                btn.classList.add('liked');
             } else {
-                song = `(Verse 1)\nএক ছিল ${name}, যার নামটা খুব খাস,\nখায় দায় শুধু আর ছাড়ে দীর্ঘশ্বাস।\nমাঝে মাঝে সে ভাবে হবে সুপারস্টার,\nআসলে সে হলো পাড়ার সবার সর্দার।\n\n(Chorus)\nহে ${name}, তুমি এক পিস অদ্ভুত নমুনা,\nতোমার মতো হাসাতে কেউ তো পারবে না।\nপ্যান্ট পরো উল্টো, চুলে দাও তেল,\nদাওয়াত পেলে তুমি ভুলে যাও সব জেল।\n\n(Bridge)\nরোদে গেলে ${name} হয়ে যায় কালো,\nসবাই বলে ওরে বাবা তুমিই ছিলে ভালো।\nরান্নাঘরে গিয়ে যদি সে করে কোনো কাজ,\nহাঁড়ি-পাতিল সব করবে আজ মেজাজ।\n\n(Outro)\nগানটা শুনে ${name} হেসো না তো আর,\nতুমিই যে আমাদের সেরা কৌতুককার।\n${name} ভাই/বোন তুমি অনেক জিয়ো,\nসবার মনে তুমি ফানি হয়েই রিয়ো।`;
+                btn.style.color = 'var(--text-muted)';
+                btn.innerHTML = `<i class="fa-regular fa-thumbs-up"></i> Like`;
+                btn.classList.remove('liked');
             }
-
-            document.getElementById('lyricsText').innerText = song;
-            document.getElementById('outputArea').classList.remove('hidden');
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
-        function showPayment() {
-            document.getElementById('payModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('payModal').style.display = 'none';
-        }
-
-        function copyNumber() {
-            const num = "01929793487";
-            const el = document.createElement('textarea');
-            el.value = num;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
+        // রিয়েল ভোটিং সিস্টেম লেআউট
+        function castVote(btn) {
+            const options = btn.parentElement.querySelectorAll('.vote-btn');
+            options.forEach(opt => {
+                opt.classList.remove('voted');
+                opt.querySelector('.v-pct').innerText = "";
+            });
+            btn.classList.add('voted');
             
-            const msg = document.getElementById('copyMsg');
-            msg.classList.remove('hidden');
-            setTimeout(() => msg.classList.add('hidden'), 2000);
+            options[0].querySelector('.v-pct').innerText = "⚡ ৬৪%";
+            options[1].querySelector('.v-pct').innerText = "২৬%";
+            options[2].querySelector('.v-pct').innerText = "১০%";
         }
 
-        function verifyPayment() {
-            const inputNum = document.getElementById('payNumber').value;
-            const error = document.getElementById('errorMsg');
-            
-            if(inputNum.length < 11) {
-                error.innerText = "নাম্বার সঠিক নয়। সঠিক নাম্বার দিন।";
-                error.classList.remove('hidden');
-            } else {
-                error.innerText = "পেমেন্ট সফল হয়নি। সঠিক নাম্বার দিন অথবা পুনরায় চেষ্টা করুন।";
-                error.classList.remove('hidden');
-            }
+        function shareAlert() {
+            alert("পোস্টের শেয়ার লিঙ্ক কপি করা হয়েছে! আপনার বন্ধুদের মেসেঞ্জারে বা টিকটকে শেয়ার করুন।");
         }
     </script>
 </body>
-</html>
+    </html>
